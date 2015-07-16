@@ -1,0 +1,7 @@
+D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShip\bin\Debug\showChildParentRelationShip.exe.config
+D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShip\obj\Debug\showChildParentRelationShip.csprojResolveAssemblyReference.cache
+D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShip\bin\Debug\showChildParentRelationShip.exe
+D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShip\bin\Debug\showChildParentRelationShip.pdb
+D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShip\obj\Debug\showChildParentRelationShip.exe
+D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShip\obj\Debug\showChildParentRelationShip.pdb
+D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShip\bin\Debug\Program.cs
