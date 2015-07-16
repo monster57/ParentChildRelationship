@@ -1,20 +1,24 @@
 using System.Collections.Generic;
+using System.Text;
 
-namespace showChildParentRelationShip
+namespace ParentChildRelationShip
 {
     class RelationshipCreator
     {
-        
-        public Dictionary<string , List<Fact>> GetRelationship(string parentId , List<Fact> childIdSet )
+        public string GetParentChildRelationship(Dictionary<string, List<Fact>> mappedParentIdWithChildId)
         {
-            Dictionary<string, List<Fact>> parentChildRelation = new Dictionary<string, List<Fact>>();
-            
-            parentChildRelation.Add(parentId , childIdSet);
-            
-
-            return parentChildRelation;
+            var stringBuilder = new StringBuilder();
+            foreach (var parentChildIdPair in mappedParentIdWithChildId)
+            {
+                foreach (var fact in parentChildIdPair.Value)
+                {
+                    stringBuilder.Append(parentChildIdPair.Key);
+                    stringBuilder.Append(" ==> ");
+                    stringBuilder.Append(fact.FactId);
+                    stringBuilder.Append("\n");
+                }
+            }
+            return stringBuilder.ToString();
         }
-
-
     }
 }

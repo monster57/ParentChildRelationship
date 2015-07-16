@@ -1,6 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 
-namespace showChildParentRelationShip
+namespace ParentChildRelationShip
 {
     public class DatabaseConnector
     {

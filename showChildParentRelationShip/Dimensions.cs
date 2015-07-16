@@ -1,6 +1,8 @@
-namespace showChildParentRelationShip
+using System.Collections;
+
+namespace ParentChildRelationShip
 {
-    public class Dimensions
+    public class Dimensions 
     {
         public  string Whatkey { get; set; }
         public  string Howkey { get; set; }

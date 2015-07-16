@@ -1,69 +1,41 @@
+using System;
 using System.Text;
 
-namespace showChildParentRelationShip
+namespace ParentChildRelationShip
 {
     public class QueryCreator
     {
-        public string GetParentDetailQuery(string id )
+        public string GetParentIdQuery()
         {
-            var queryBuilder = new StringBuilder();
-            queryBuilder.Append("SELECT Where4Key  , WhatKey , How3Key , when3key FROM new_student.fact_data_sheet1 where Fact_DataId =");
-            queryBuilder.Append(id);
-            return queryBuilder.ToString();
-            
+            var stringBuilder = new StringBuilder();
+            stringBuilder.Append("select fact.Fact_DataId , parent.AnchorHow3Key , parent.When3Key , parent.AnchorWhatKey ");
+            stringBuilder.Append(", parent.AnchorWhere4Key from new_student.fact_data_sheet1 fact join (");
+            stringBuilder.Append("select Distinct AnchorHow3Key , AnchorWhatKey , AnchorWhere4Key , When3Key from ");
+            stringBuilder.Append("new_student.parentchild_sheet1) parent on fact.WhatKey = parent.AnchorWhatKey and fact.How3Key ");
+            stringBuilder.Append(
+                " = parent.AnchorHow3Key and fact.When3Key = parent.When3Key and parent.AnchorWhere4Key = parent.AnchorWhere4Key;");
+            return stringBuilder.ToString();
+
         }
 
-        public string GetAllParentDataQuery()
+        public string GetChildIdQuery(Dimensions dimension)
         {
-            var queryBuilder = new StringBuilder();
-            queryBuilder.Append(
-                "select Distinct AnchorHow3Key , AnchorWhatKey , AnchorWhere4Key , When3Key from new_student.parentchild_sheet1 ;");
-            return queryBuilder.ToString();
-        }
+            var stringBuilder = new StringBuilder();
+            stringBuilder.Append("select fact.Fact_DataId from new_student.fact_data_sheet1 fact ");
+            stringBuilder.Append("join  (SELECT ChildHow3Key , ChildWhatKey , ChildWhere4Key , When3Key FROM ");
+            stringBuilder.Append("new_student.parentchild_sheet1 where AnchorWhatKey= ");
+            stringBuilder.Append(dimension.Whatkey);
+            stringBuilder.Append(" and AnchorWhere4Key = ");
+            stringBuilder.Append(dimension.Wherekey);
+            stringBuilder.Append(" and AnchorHow3Key = ");
+            stringBuilder.Append(dimension.Howkey);
+            stringBuilder.Append(" and When3Key = ");
+            stringBuilder.Append(dimension.Whenkey);
+            stringBuilder.Append(") child on fact.WhatKey = child.ChildWhatKey and fact.How3Key = child.ChildHow3Key ");
+            stringBuilder.Append("and fact.When3Key = child.When3Key and fact.Where4Key = child.ChildWhere4Key;");
+            return stringBuilder.ToString();
 
-        public string GetParentId(string when3Key , string howKey , string whereKey ,  string whatKey )
-        {
-            var queryBuilder = new StringBuilder();
-            queryBuilder.Append("select Fact_DataId from new_student.fact_data_sheet1 where When3Key = ");
-            queryBuilder.Append(when3Key);
-            queryBuilder.Append(" and How3Key = ");
-            queryBuilder.Append(howKey);
-            queryBuilder.Append(" and WhatKey = ");
-            queryBuilder.Append(whatKey);
-            queryBuilder.Append(" and Where4Key = ");
-            queryBuilder.Append(whereKey);
-            return queryBuilder.ToString();
         }
-
-        public string GetChildDetails(string anchorHowKey, string anchorWhatKey, string anchorWhereKey, string when3Key)
-        {
-            var queryBuilder = new StringBuilder();
-            queryBuilder.Append(
-                "select ChildHow3Key , ChildWhatKey , ChildWhere4Key , when3key from new_student.parentchild_sheet1 where AnchorHow3Key = ");
-            queryBuilder.Append(anchorHowKey);
-            queryBuilder.Append(" and  AnchorWhatKey = ");
-            queryBuilder.Append(anchorWhatKey);
-            queryBuilder.Append(" and AnchorWhere4Key =");
-            queryBuilder.Append(anchorWhereKey);
-            queryBuilder.Append(" and when3key = ");
-            queryBuilder.Append(when3Key);
-            queryBuilder.Append(";");
-            return queryBuilder.ToString();
-        }
-
-        public string GetChildIdQuery(Dimensions chilDimension)
-        {
-            var queryBuilder = new StringBuilder();
-            queryBuilder.Append("select Fact_DataId from new_student.fact_data_sheet1 where When3Key = ");
-            queryBuilder.Append(chilDimension.Whenkey);
-            queryBuilder.Append("  and How3Key = ");
-            queryBuilder.Append(chilDimension.Howkey);
-            queryBuilder.Append(" and WhatKey = ");
-            queryBuilder.Append(chilDimension.Whatkey);
-            queryBuilder.Append(" and Where4Key = ");
-            queryBuilder.Append(chilDimension.Wherekey);
-            queryBuilder.Append(" ;");
-            return queryBuilder.ToString();
-        } 
+ 
     }
 }

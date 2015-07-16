@@ -1,4 +1,4 @@
-namespace showChildParentRelationShip
+namespace ParentChildRelationShip
 {
     public class Fact
     {
