@@ -1,5 +1,6 @@
-D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShip\bin\Debug\showChildParentRelationShip.exe.config
-D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShip\bin\Debug\showChildParentRelationShip.exe
-D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShip\bin\Debug\showChildParentRelationShip.pdb
-D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShip\obj\Debug\showChildParentRelationShip.exe
-D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShip\obj\Debug\showChildParentRelationShip.pdb
+D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShip\obj\Debug\ParentChildRelationShip.csprojResolveAssemblyReference.cache
+D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShip\bin\Debug\ParentChildRelationship.exe.config
+D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShip\bin\Debug\ParentChildRelationship.exe
+D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShip\bin\Debug\ParentChildRelationship.pdb
+D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShip\obj\Debug\ParentChildRelationship.exe
+D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShip\obj\Debug\ParentChildRelationship.pdb

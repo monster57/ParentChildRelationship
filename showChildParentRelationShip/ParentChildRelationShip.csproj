@@ -7,8 +7,8 @@
     <ProjectGuid>{48D9E2FC-CE27-4C66-8380-23079FA00D95}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>showChildParentRelationShip</RootNamespace>
-    <AssemblyName>showChildParentRelationShip</AssemblyName>
+    <RootNamespace>ParentChildRelationship</RootNamespace>
+    <AssemblyName>ParentChildRelationship</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -42,14 +42,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DatabaseConnector.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="DatabaseUtils.cs" />
     <Compile Include="DataContainer.cs" />
-    <Compile Include="Dimensions.cs" />
+    <Compile Include="FactDimensions.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Fact.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryCreator.cs" />
-    <Compile Include="RelationshipCreator.cs" />
+    <Compile Include="Printer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

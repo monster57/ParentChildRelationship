@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace ParentChildRelationShip
+namespace ParentChildRelationship
 {
-    class Program
+    internal class Program
     {
-        
-        static void Main(string[] args)
+        private static void Main()
         {
             Run();
             Console.ReadKey();
@@ -14,18 +13,19 @@ namespace ParentChildRelationShip
 
         private static void Run()
         {
+            RunWithTimeCheck(() =>
+            {
+                Printer.Print(new ParentChildUtil().GetParentToChildrenMap());
+            });
+        }
 
+        private static void RunWithTimeCheck(Action action)
+        {
             var sw = new Stopwatch();
             sw.Start();
-            var dataContainer = new DataContainer();
-            var relationshipCreator = new RelationshipCreator();
-            var mappedParentIdWithDimension = dataContainer.GetAllParentsIdMappedWithDimensions();
-            var mappedParentIdWithChildId = dataContainer.GetAllChildIdMappedWithParentId(mappedParentIdWithDimension);
-            var result = relationshipCreator.GetParentChildRelationship(mappedParentIdWithChildId);
-
-            Console.WriteLine(result);
+            action.Invoke();
             sw.Stop();
-            Console.WriteLine("Took " + sw.ElapsedMilliseconds);
+            Console.WriteLine("Took {0} milliseconds :)" + sw.ElapsedMilliseconds);
         }
     }
 }
