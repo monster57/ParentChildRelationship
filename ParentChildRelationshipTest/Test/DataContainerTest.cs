@@ -1,25 +1,17 @@
 ﻿using NUnit.Framework;
+using ParentChildRelationship;
 
 namespace ParentChildRelationshipTest.Test
 {
     [TestFixture]
-    class DataContainerTest
+    internal class DataContainerTest
     {
-//        [Test]
-//        public void GetParentToChildMapGivesADictionaryAllTheChildrenOfAllPrents()
-//        {
-//            var dictionary = new ParentChildUtil().GetParentToChildrenMap();
-//            var listFacts = new List<Fact>
-//            {
-//                new Fact() {FactId = "16"},
-//                new Fact() {FactId = "16"},
-//                new Fact() {FactId = "19"},
-//                new Fact() {FactId = "22"},
-//                new Fact() {FactId = "22"}
-//            };
-//
-//
-//            Assert.True(dictionary.Values.Contains(listFacts));
-//        }
+        [Test]
+        public void ShouldGetADictionaryOfAllTheChildParentId()
+        {
+            var dictionary = new ParentChildUtil().GetParentToChildrenMap();
+            const int totalKeyValuePair = 149;
+            Assert.AreEqual(dictionary.Count, totalKeyValuePair);
+        }
     }
 }

@@ -1,42 +1,34 @@
-﻿using System.Data;
+﻿using System.ComponentModel;
+using System.Data;
 using NUnit.Framework;
 using ParentChildRelationship;
 
 namespace ParentChildRelationshipTest.Test
 {
     [TestFixture]
-    class FactDimensionTest
+    internal class FactDimensionTest
     {
         [Test]
-        public void GetFactDimensionFromRowTakesARowGivesAllDimensionOfFactFromThatRow()
+        public void ShouldGetFactDimensionsFromDataRow()
         {
-            var datatable = new DataTable();
-            datatable.Columns.Add("AnchorWhatKey");
-            datatable.Columns.Add("When3Key");
-            datatable.Columns.Add("AnchorWhere4Key");
-            datatable.Columns.Add("AnchorHow3Key");
-            var dataRow = datatable.NewRow();
-            dataRow["AnchorWhatKey"] = 59;
-            dataRow["When3Key"] = 5;
-            dataRow["AnchorWhere4Key"] = 1;
-            dataRow["AnchorHow3Key"] = 2;
-            datatable.Rows.Add(dataRow);
+            var dataTable = FactData.GetStandardFactDataTable();
+            const string whatKey = "59";
+            const string whenKey = "5";
+            const string whereKey = "1";
+            const string howKey = "2";
 
-            var factDimention = new FactDimensions
+            var factDimensions = new FactDimensions
             {
                 Howkey = "2",
                 Whatkey = "59",
                 Whenkey = "5",
                 Wherekey = "1"
             };
-
-            var result = FactDimensions.GetFactDimensionsFromRow(datatable.Rows[0]);
-            Assert.AreEqual(result.Howkey , factDimention.Howkey);
-            Assert.AreEqual(result.Wherekey, factDimention.Wherekey);
-            Assert.AreEqual(result.Whenkey, factDimention.Whenkey);
-            Assert.AreEqual(result.Whatkey, factDimention.Whatkey);
-
-
+            var result = FactDimensions.GetFactDimensionsFromRow(FactData.GetStandardFactDataRow(dataTable, whatKey ,whenKey ,whereKey ,howKey));
+            Assert.AreEqual(result.Howkey, factDimensions.Howkey);
+            Assert.AreEqual(result.Wherekey, factDimensions.Wherekey);
+            Assert.AreEqual(result.Whenkey, factDimensions.Whenkey);
+            Assert.AreEqual(result.Whatkey, factDimensions.Whatkey);
         }
     }
 }

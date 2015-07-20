@@ -7,7 +7,7 @@ namespace ParentChildRelationshipTest.Test
     class QueryCreatorTest
     {
         [Test]
-        public void GetParentIdQueryGivesAQueryToGetAllTheIdOfParentFromTable()
+        public void ShouldGiveAQueryToGetAllTheParentIdWithDimensions()
         {
             const string query = "select fact.Fact_DataId ," +
                                  "parent.When3Key ,parent.AnchorHow3Key ,  parent.AnchorWhatKey , parent.AnchorWhere4Key " +
@@ -21,9 +21,8 @@ namespace ParentChildRelationshipTest.Test
 
             Assert.AreEqual(query , QueryCreator.GetParentIdQuery);
         }
-
         [Test]
-        public void GetChildIdQueryTakesAFactDimensionGivesAllTheChildIdBelongToTheFactDimension()
+        public void ShouldGiveAQueryToGetAllTheParentChildIdFromFactDimension()
         {
             const string query = "select fact.Fact_DataId from new_student.fact_data_sheet1 fact " +
                                  "join (SELECT ChildHow3Key , ChildWhatKey , ChildWhere4Key , When3Key FROM " +
@@ -38,7 +37,6 @@ namespace ParentChildRelationshipTest.Test
                 Whenkey = "8",
                 Wherekey = "1"
             };
-
             Assert.AreEqual(query , QueryCreator.GetChildIdQuery(factDimention));
         }
     }
