@@ -5,3 +5,4 @@ D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShi
 D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShip\bin\Debug\nunit.framework.xml
 D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShip\obj\Debug\ParentChildRelationship.exe
 D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShip\obj\Debug\ParentChildRelationship.pdb
+D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShip\obj\Debug\ParentChildRelationShip.csprojResolveAssemblyReference.cache

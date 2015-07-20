@@ -8,7 +8,8 @@ namespace ParentChildRelationship
     {
         private static IDictionary<string, FactDimensions> GetParentDimensionMap()
         {
-            return DatabaseUtils.ExecuteQuery(QueryCreator.GetParentIdQuery)
+            var query = QueryCreator.GetParentIdQuery();
+            return DatabaseUtils.ExecuteQuery(QueryCreator.GetParentIdQuery())
                 .GetDataRows()
                 .Where(IsRowValid)
                 .ToDictionary(row => row.GetValue(Constants.FactDataId), FactDimensions.GetFactDimensionsFromRow);

@@ -42,9 +42,9 @@ namespace ParentChildRelationshipTest.Test
             const string expectedHow3Key = "2";
 
             Assert.AreEqual(dataRow.GetValue(Constants.When3Key), expectedWhen3Key);
-            Assert.AreEqual(dataRow.GetValue(Constants.Anchor + Constants.Where4Key), expectedWhere4Key);
-            Assert.AreEqual(dataRow.GetValue(Constants.Anchor + Constants.WhatKey), expectedWhatKey);
-            Assert.AreEqual(dataRow.GetValue(Constants.Anchor + Constants.How3Key), expectedHow3Key);
+            Assert.AreEqual(dataRow.GetValue(Constants.AnchorWhere4Key), expectedWhere4Key);
+            Assert.AreEqual(dataRow.GetValue(Constants.AnchorWhatKey), expectedWhatKey);
+            Assert.AreEqual(dataRow.GetValue(Constants.AnchorHow3Key), expectedHow3Key);
         }
     }
 }

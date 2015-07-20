@@ -1,36 +1,80 @@
+using System;
+using System.Linq;
 using System.Text;
 
 namespace ParentChildRelationship
 {
     public static class QueryCreator
     {
-        public const string GetParentIdQuery =
-            "select fact.Fact_DataId ," +
-            "parent.When3Key ,parent.AnchorHow3Key ,  parent.AnchorWhatKey , parent.AnchorWhere4Key " +
-            "from new_student.fact_data_sheet1 fact join " +
-            "(select Distinct AnchorHow3Key , AnchorWhatKey , AnchorWhere4Key , When3Key from new_student.parentchild_sheet1)" +
-            " parent " +
-            "on fact.WhatKey = parent.AnchorWhatKey " +
-            "and fact.How3Key = parent.AnchorHow3Key " +
-            "and fact.When3Key = parent.When3Key " +
-            "and parent.AnchorWhere4Key = parent.AnchorWhere4Key;";
+
+        private static string GetSelect()
+        {
+            return "select fact.Fact_DataId";
+        }
+
+        private static string GetDimensionWithPrefix(string category)
+        {
+            string[] dimension =
+            {
+                category + "." + Constants.When3Key, category + "." + category+Constants.How3Key,
+                category + "." + category+Constants.WhatKey, category + "." + category + Constants.Where4Key
+            };
+
+
+            return string.Join(" , ", dimension);
+        }
+
+        private static string GetDimension(string category)
+        {
+            string[] dimension =
+            {
+                 Constants.When3Key, category+Constants.How3Key,
+                 category+Constants.Where4Key,  category + Constants.WhatKey          
+            };
+            return string.Join(" , ", dimension);
+        }
+
+        
+        private static string Something(string category)
+        {
+            return Constants.Fact + "." + Constants.WhatKey + " = " + category + "." + category+
+                   Constants.WhatKey +
+                   " and " + Constants.Fact + "." + Constants.How3Key + " = " + category + "." +
+                   category + Constants.How3Key +
+                   " and " + Constants.Fact + "." + Constants.When3Key + " = " + category+ "." +
+                   Constants.When3Key +
+                   " and " + Constants.Fact + "." + Constants.Where4Key + " = " + category+ "." +
+                   category + Constants.Where4Key+";";
+        }
+
+        private static string GetFrom(string datatable)
+        {
+            return "from new_student." + datatable;
+        }
+
+        public static string GetParentIdQuery()
+        {
+            return GetSelect() + " , "
+                   + GetDimensionWithPrefix(Constants.Anchor) + " "
+                   +GetFrom(Constants.FactDataTable)+" "+Constants.Fact+" join " +
+                   "(select Distinct " + GetDimension(Constants.Anchor) +
+                   " "+GetFrom(Constants.ParentChildtable)+")" +
+                   " "+Constants.Anchor+" " +
+                   "on " + Something(Constants.Anchor);
+        }
+            
 
         public static string GetChildIdQuery(FactDimensions factDimension)
         {
-            var stringBuilder = new StringBuilder();
-            stringBuilder.Append("select fact.Fact_DataId from new_student.fact_data_sheet1 fact ");
-            stringBuilder.Append("join (SELECT ChildHow3Key , ChildWhatKey , ChildWhere4Key , When3Key FROM ");
-            stringBuilder.Append("new_student.parentchild_sheet1 where AnchorWhatKey= ");
-            stringBuilder.Append(factDimension.Whatkey);
-            stringBuilder.Append(" and AnchorWhere4Key = ");
-            stringBuilder.Append(factDimension.Wherekey);
-            stringBuilder.Append(" and AnchorHow3Key = ");
-            stringBuilder.Append(factDimension.Howkey);
-            stringBuilder.Append(" and When3Key = ");
-            stringBuilder.Append(factDimension.Whenkey);
-            stringBuilder.Append(") child on fact.WhatKey = child.ChildWhatKey and fact.How3Key = child.ChildHow3Key ");
-            stringBuilder.Append("and fact.When3Key = child.When3Key and fact.Where4Key = child.ChildWhere4Key;");
-            return stringBuilder.ToString();
+            //return GetSelect()+" from new_student.fact_data_sheet1 fact "+
+            // "join (SELECT "+GetDimension(Constants.Child) FROM "
+            return GetSelect() + " "+GetFrom(Constants.FactDataTable)+" " +Constants.Fact+
+                   " join (SELECT " + GetDimension(Constants.Child) +
+                   " "+GetFrom(Constants.ParentChildtable)+" where AnchorWhatKey= " + factDimension.Whatkey +
+                   " and AnchorWhere4Key = " + factDimension.Wherekey +
+                   " and AnchorHow3Key = " + factDimension.Howkey +
+                   " and When3Key = " + factDimension.Whenkey +
+                   ") Child on " + Something(Constants.Child);
         }
     }
 }

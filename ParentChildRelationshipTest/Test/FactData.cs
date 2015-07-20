@@ -8,10 +8,10 @@ namespace ParentChildRelationshipTest.Test
         public static DataTable GetStandardFactDataTable()
         {
             var datatable = new DataTable();
-            datatable.Columns.Add(Constants.Anchor + Constants.WhatKey);
+            datatable.Columns.Add(Constants.AnchorWhatKey);
             datatable.Columns.Add(Constants.When3Key);
-            datatable.Columns.Add(Constants.Anchor + Constants.Where4Key);
-            datatable.Columns.Add(Constants.Anchor + Constants.How3Key);
+            datatable.Columns.Add(Constants.AnchorWhere4Key);
+            datatable.Columns.Add(Constants.AnchorHow3Key);
             return datatable;
         }
 
@@ -25,10 +25,10 @@ namespace ParentChildRelationshipTest.Test
             string whereKey, string howKey)
         {
             var dataRow = dataTable.NewRow();
-            dataRow[Constants.Anchor + Constants.WhatKey] = whatKey;
+            dataRow[Constants.AnchorWhatKey] = whatKey;
             dataRow[Constants.When3Key] = whenKey;
-            dataRow[Constants.Anchor + Constants.Where4Key] = whereKey;
-            dataRow[Constants.Anchor + Constants.How3Key] = howKey;
+            dataRow[Constants.AnchorWhere4Key] = whereKey;
+            dataRow[Constants.AnchorHow3Key] = howKey;
             return dataRow;
         }
     }
