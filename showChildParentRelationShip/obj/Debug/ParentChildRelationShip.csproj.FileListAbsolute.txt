@@ -4,3 +4,5 @@ D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShi
 D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShip\bin\Debug\ParentChildRelationship.pdb
 D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShip\obj\Debug\ParentChildRelationship.exe
 D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShip\obj\Debug\ParentChildRelationship.pdb
+D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShip\bin\Debug\nunit.framework.dll
+D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShip\bin\Debug\nunit.framework.xml

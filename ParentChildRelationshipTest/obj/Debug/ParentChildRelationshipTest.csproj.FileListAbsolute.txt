@@ -1,0 +1,10 @@
+D:\Practice Visual Studio\showChildParentRelationShip\ParentChildRelationshipTest\bin\Debug\ParentChildRelationshipTest.exe.config
+D:\Practice Visual Studio\showChildParentRelationShip\ParentChildRelationshipTest\bin\Debug\ParentChildRelationshipTest.exe
+D:\Practice Visual Studio\showChildParentRelationShip\ParentChildRelationshipTest\bin\Debug\ParentChildRelationshipTest.pdb
+D:\Practice Visual Studio\showChildParentRelationShip\ParentChildRelationshipTest\bin\Debug\nunit.framework.dll
+D:\Practice Visual Studio\showChildParentRelationShip\ParentChildRelationshipTest\bin\Debug\ParentChildRelationship.exe
+D:\Practice Visual Studio\showChildParentRelationShip\ParentChildRelationshipTest\bin\Debug\ParentChildRelationship.pdb
+D:\Practice Visual Studio\showChildParentRelationShip\ParentChildRelationshipTest\bin\Debug\nunit.framework.xml
+D:\Practice Visual Studio\showChildParentRelationShip\ParentChildRelationshipTest\obj\Debug\ParentChildRelationshipTest.csprojResolveAssemblyReference.cache
+D:\Practice Visual Studio\showChildParentRelationShip\ParentChildRelationshipTest\obj\Debug\ParentChildRelationshipTest.exe
+D:\Practice Visual Studio\showChildParentRelationShip\ParentChildRelationshipTest\obj\Debug\ParentChildRelationshipTest.pdb

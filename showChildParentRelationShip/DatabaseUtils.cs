@@ -29,6 +29,8 @@ namespace ParentChildRelationship
             }.ToString());
         }
 
+        
+
         public static DataTable ExecuteQuery(string query)
         {
             var connection = SingleConnection;
