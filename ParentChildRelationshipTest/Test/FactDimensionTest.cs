@@ -25,10 +25,10 @@ namespace ParentChildRelationshipTest.Test
             var result =
                 FactDimensions.GetFactDimensionsFromRow(FactData.GetStandardFactDataRow(dataTable, whatKey, whenKey,
                     whereKey, howKey));
-            Assert.AreEqual(result.Howkey, howKey);
-            Assert.AreEqual(result.Wherekey, whereKey);
-            Assert.AreEqual(result.Whenkey, whenKey);
-            Assert.AreEqual(result.Whatkey, whatKey);
+            Assert.AreEqual(result.Howkey, factDimensions.Howkey);
+            Assert.AreEqual(result.Wherekey, factDimensions.Wherekey);
+            Assert.AreEqual(result.Whenkey, factDimensions.Whenkey);
+            Assert.AreEqual(result.Whatkey, factDimensions.Whatkey);
         }
     }
 }
