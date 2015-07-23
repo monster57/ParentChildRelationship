@@ -11,12 +11,12 @@ namespace ParentChildRelationshipTest.Test
         [Test]
         public void GetDataRowsTakesADatatableAndReturnsAListOfRows()
         {
-            var datatable = FactData.GetStandardFactDataTable();
+            var datatable = Helper.GetStandardFactDataTable();
             var dataRow = datatable.NewRow();
-            dataRow["AnchorWhatKey"] = 59;
-            dataRow["When3Key"] = 5;
-            dataRow["AnchorWhere4Key"] = 1;
-            dataRow["AnchorHow3Key"] = 2;
+            dataRow[ConfigSettings.AnchorWhatKey] = 59;
+            dataRow[ConfigSettings.When3Key] = 5;
+            dataRow[ConfigSettings.AnchorWhere4Key] = 1;
+            dataRow[ConfigSettings.AnchorHow3Key] = 2;
             datatable.Rows.Add(dataRow);
 
             var listDataRows = new List<DataRow> {dataRow};
@@ -26,7 +26,7 @@ namespace ParentChildRelationshipTest.Test
         [Test]
         public void GetValueTakesARowAndColumnNameReturnsTheValueOfThatColumnForThatRow()
         {
-            var datatable = FactData.GetStandardFactDataTable();
+            var datatable = Helper.GetStandardFactDataTable();
             var factDimensions = new FactDimensions
             {
                 Wherekey = "1",
@@ -34,17 +34,17 @@ namespace ParentChildRelationshipTest.Test
                 Whenkey = "5",
                 Howkey = "2"
             };
-            var dataRow = FactData.GetStandardFactDataRow(datatable, factDimensions);
+            var dataRow = Helper.GetStandardFactDataRow(datatable, factDimensions);
             datatable.Rows.Add(dataRow);
             const string expectedWhen3Key = "5";
             const string expectedWhere4Key = "1";
             const string expectedWhatKey = "59";
             const string expectedHow3Key = "2";
 
-            Assert.AreEqual(dataRow.GetValue(Constants.When3Key), expectedWhen3Key);
-            Assert.AreEqual(dataRow.GetValue(Constants.AnchorWhere4Key), expectedWhere4Key);
-            Assert.AreEqual(dataRow.GetValue(Constants.AnchorWhatKey), expectedWhatKey);
-            Assert.AreEqual(dataRow.GetValue(Constants.AnchorHow3Key), expectedHow3Key);
+            Assert.AreEqual(dataRow.GetValue(ConfigSettings.When3Key), expectedWhen3Key);
+            Assert.AreEqual(dataRow.GetValue(ConfigSettings.AnchorWhere4Key), expectedWhere4Key);
+            Assert.AreEqual(dataRow.GetValue(ConfigSettings.AnchorWhatKey), expectedWhatKey);
+            Assert.AreEqual(dataRow.GetValue(ConfigSettings.AnchorHow3Key), expectedHow3Key);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System.Configuration;
+using System.Data;
 using MySql.Data.MySqlClient;
 
 namespace ParentChildRelationship
@@ -20,13 +21,7 @@ namespace ParentChildRelationship
 
         private static MySqlConnection CreateConnection()
         {
-            return new MySqlConnection(new MySqlConnectionStringBuilder
-            {
-                Server = "localhost",
-                UserID = "root",
-                Password = "root",
-                Database = "new_student"
-            }.ToString());
+             return new MySqlConnection(ConfigurationManager.ConnectionStrings["parentChildRelation"].ConnectionString);
         }
 
         

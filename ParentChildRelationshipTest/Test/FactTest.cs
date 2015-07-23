@@ -10,10 +10,10 @@ namespace ParentChildRelationshipTest.Test
         [Test]
         public void ShouldGetFactFromADataRow()
         {
-            var datatable = FactData.GetStandardFactDataTable();
-            datatable.Columns.Add(Constants.FactDataId);
+            var datatable = Helper.GetStandardFactDataTable();
+            datatable.Columns.Add(ConfigSettings.Id);
             var dataRow = datatable.NewRow();
-            dataRow[Constants.FactDataId] = 1;
+            dataRow[ConfigSettings.Id] = 1;
             datatable.Rows.Add(dataRow);
             var result = Fact.GetFactFromRow(dataRow);
             var fact = new Fact {FactId = "1"};

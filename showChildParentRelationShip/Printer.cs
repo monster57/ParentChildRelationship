@@ -10,13 +10,13 @@ namespace ParentChildRelationship
         {
             foreach (var parentChildIdPair in parentToChildrenMap)
             {
-                parentChildIdPair.Value.ToList().ForEach(fact => { PrintFact(parentChildIdPair.Key, fact); });
+                parentChildIdPair.Value.ToList().ForEach(fact => { PrintFact(parentChildIdPair.Key, fact.FactId); });
             }
         }
 
-        private static void PrintFact(string parentFactId, Fact fact)
+        private static void PrintFact(string parentFactId, string factId)
         {
-            Console.WriteLine("{0} ==> {1}", parentFactId, fact.FactId);
+            Console.WriteLine("{0} ==> {1}", parentFactId, factId);
         }
     }
 }

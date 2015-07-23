@@ -7,3 +7,4 @@ D:\Practice Visual Studio\showChildParentRelationShip\ParentChildRelationshipTes
 D:\Practice Visual Studio\showChildParentRelationShip\ParentChildRelationshipTest\obj\Debug\ParentChildRelationshipTest.csprojResolveAssemblyReference.cache
 D:\Practice Visual Studio\showChildParentRelationShip\ParentChildRelationshipTest\obj\Debug\ParentChildRelationshipTest.dll
 D:\Practice Visual Studio\showChildParentRelationShip\ParentChildRelationshipTest\obj\Debug\ParentChildRelationshipTest.pdb
+D:\Practice Visual Studio\showChildParentRelationShip\ParentChildRelationshipTest\bin\Debug\ParentChildRelationshipTest.dll.config

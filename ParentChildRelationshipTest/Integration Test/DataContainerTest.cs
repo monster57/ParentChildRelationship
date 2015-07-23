@@ -11,19 +11,16 @@ namespace ParentChildRelationshipTest.Integration_Test
         [Test]
         public void ShouldGetChildIdBelongsToTheParentId()
         {
-            var expected = new List<Fact> {new Fact {FactId = "474"}};
+            var expected = new List<Fact> {new Fact {FactId = "432"}};
             IEnumerable<Fact> factList;
             var dictionary = new ParentChildUtil().GetParentToChildrenMap();
-            const string parentId = "473";
+            const string parentId = "424";
             dictionary.TryGetValue(parentId, out factList);
-
-            var enumerable = factList as List<Fact> ?? factList.ToList();
-            for (var i = 0; i < enumerable.Count; i++)
+            var actual = factList as List<Fact> ?? factList.ToList();
+            for (var index = 0; index < actual.Count; index++)
             {
-                Assert.AreEqual(enumerable[i].FactId, expected[i].FactId);
+                Assert.AreEqual(actual[index].FactId, expected[index].FactId);
             }
-
-            
         }
     }
 }

@@ -11,12 +11,12 @@ namespace ParentChildRelationship
             return DatabaseUtils.ExecuteQuery(QueryCreator.GetParentIdQuery())
                 .GetDataRows()
                 .Where(IsRowValid)
-                .ToDictionary(row => row.GetValue(Constants.FactDataId), FactDimensions.GetFactDimensionsFromRow);
+                .ToDictionary(row => row.GetValue(ConfigSettings.Id), FactDimensions.GetFactDimensionsFromRow);
         }
 
         private static bool IsRowValid(DataRow row)
         {
-            return !string.IsNullOrEmpty(row.GetValue(Constants.FactDataId));
+            return !string.IsNullOrEmpty(row.GetValue(ConfigSettings.Id));
         }
 
         private static IDictionary<string, IEnumerable<Fact>> GetChildrenRelatedToParent(

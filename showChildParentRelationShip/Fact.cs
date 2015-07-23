@@ -10,7 +10,7 @@ namespace ParentChildRelationship
         {
             return new Fact
             {
-                FactId = row.GetValue(Constants.FactDataId)
+                FactId = row.GetValue(ConfigSettings.Id)
             };
         }
     }

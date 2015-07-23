@@ -1,80 +1,74 @@
-using System;
-using System.Linq;
-using System.Text;
-
 namespace ParentChildRelationship
 {
     public static class QueryCreator
     {
-
-        private static string GetSelect()
+        private static string GetSelectClause()
         {
-            return "select fact.Fact_DataId";
+            return "select "+ConfigSettings.Fact+"."+ConfigSettings.Id;
         }
 
         private static string GetDimensionWithPrefix(string category)
         {
             string[] dimension =
             {
-                category + "." + Constants.When3Key, category + "." + category+Constants.How3Key,
-                category + "." + category+Constants.WhatKey, category + "." + category + Constants.Where4Key
+                category + "." + ConfigSettings.When3Key, category + "." + category + ConfigSettings.How3Key,
+                category + "." + category + ConfigSettings.WhatKey, category + "." + category + ConfigSettings.Where4Key
             };
-
-
-            return string.Join(" , ", dimension);
+            return string.Join(" , ", dimension)+" ";
         }
 
         private static string GetDimension(string category)
         {
             string[] dimension =
             {
-                 Constants.When3Key, category+Constants.How3Key,
-                 category+Constants.Where4Key,  category + Constants.WhatKey          
+                ConfigSettings.When3Key, category + ConfigSettings.How3Key,
+                category + ConfigSettings.Where4Key, category + ConfigSettings.WhatKey
             };
-            return string.Join(" , ", dimension);
+            return string.Join(" , ", dimension)+" ";
         }
 
-        
-        private static string Something(string category)
+        private static string GetJoincaluse(string category)
         {
-            return Constants.Fact + "." + Constants.WhatKey + " = " + category + "." + category+
-                   Constants.WhatKey +
-                   " and " + Constants.Fact + "." + Constants.How3Key + " = " + category + "." +
-                   category + Constants.How3Key +
-                   " and " + Constants.Fact + "." + Constants.When3Key + " = " + category+ "." +
-                   Constants.When3Key +
-                   " and " + Constants.Fact + "." + Constants.Where4Key + " = " + category+ "." +
-                   category + Constants.Where4Key+";";
+            return " on "+ConfigSettings.Fact + "." + ConfigSettings.WhatKey + " = " + category + "." + category +
+                   ConfigSettings.WhatKey +
+                   " and " + ConfigSettings.Fact + "." + ConfigSettings.How3Key + " = " + category + "." +
+                   category + ConfigSettings.How3Key +
+                   " and " + ConfigSettings.Fact + "." + ConfigSettings.When3Key + " = " + category + "." +
+                   ConfigSettings.When3Key +
+                   " and " + ConfigSettings.Fact + "." + ConfigSettings.Where4Key + " = " + category + "." +
+                   category + ConfigSettings.Where4Key + ";";
         }
 
-        private static string GetFrom(string datatable)
+        private static string GetFromClause(string datatable)
         {
-            return "from new_student." + datatable;
+            return "from "+ConfigSettings.Schema+"." + datatable;
         }
 
+
+        private static string GetWhereClause(FactDimensions dimensions)
+        {
+            return " where "+ ConfigSettings.Anchor + ConfigSettings.WhatKey + " = " + dimensions.Whatkey +
+            " and "+ConfigSettings.Anchor+ConfigSettings.Where4Key+" = " + dimensions.Wherekey +
+            " and "+ConfigSettings.Anchor+ConfigSettings.How3Key+" = " + dimensions.Howkey +
+            " and "+ConfigSettings.When3Key+" = " + dimensions.Whenkey;
+
+        }
         public static string GetParentIdQuery()
         {
-            return GetSelect() + " , "
-                   + GetDimensionWithPrefix(Constants.Anchor) + " "
-                   +GetFrom(Constants.FactDataTable)+" "+Constants.Fact+" join " +
-                   "(select Distinct " + GetDimension(Constants.Anchor) +
-                   " "+GetFrom(Constants.ParentChildtable)+")" +
-                   " "+Constants.Anchor+" " +
-                   "on " + Something(Constants.Anchor);
+            return GetSelectClause() + " , "
+                   + GetDimensionWithPrefix(ConfigSettings.Anchor)
+                   + GetFromClause(ConfigSettings.FactDataTable) + " " + ConfigSettings.Fact + " join " +
+                   "(select Distinct " + GetDimension(ConfigSettings.Anchor) +
+                   GetFromClause(ConfigSettings.ParentChildTable) + ") " +
+                    ConfigSettings.Anchor + GetJoincaluse(ConfigSettings.Anchor);
         }
-            
 
         public static string GetChildIdQuery(FactDimensions factDimension)
         {
-            //return GetSelect()+" from new_student.fact_data_sheet1 fact "+
-            // "join (SELECT "+GetDimension(Constants.Child) FROM "
-            return GetSelect() + " "+GetFrom(Constants.FactDataTable)+" " +Constants.Fact+
-                   " join (SELECT " + GetDimension(Constants.Child) +
-                   " "+GetFrom(Constants.ParentChildtable)+" where AnchorWhatKey= " + factDimension.Whatkey +
-                   " and AnchorWhere4Key = " + factDimension.Wherekey +
-                   " and AnchorHow3Key = " + factDimension.Howkey +
-                   " and When3Key = " + factDimension.Whenkey +
-                   ") Child on " + Something(Constants.Child);
+            return GetSelectClause() + " " + GetFromClause(ConfigSettings.FactDataTable) + " " + ConfigSettings.Fact +
+                   " join (select " + GetDimension(ConfigSettings.Child) +
+                   GetFromClause(ConfigSettings.ParentChildTable) +GetWhereClause(factDimension)+
+                   ") "+ConfigSettings.Child + GetJoincaluse(ConfigSettings.Child);
         }
     }
 }

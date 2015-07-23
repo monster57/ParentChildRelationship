@@ -13,10 +13,10 @@ namespace ParentChildRelationship
         {
             return new FactDimensions
             {
-                Howkey = row.GetValue(Constants.AnchorHow3Key),
-                Whatkey = row.GetValue(Constants.AnchorWhatKey),
-                Wherekey = row.GetValue(Constants.AnchorWhere4Key),
-                Whenkey = row.GetValue(Constants.When3Key)
+                Howkey = row.GetValue(ConfigSettings.AnchorHow3Key),
+                Whatkey = row.GetValue(ConfigSettings.AnchorWhatKey),
+                Wherekey = row.GetValue(ConfigSettings.AnchorWhere4Key),
+                Whenkey = row.GetValue(ConfigSettings.When3Key)
             };
         }
     }
