@@ -1,6 +1,9 @@
+using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ParentChildRelationship
@@ -23,12 +26,15 @@ namespace ParentChildRelationship
         private static IDictionary<string, IEnumerable<Fact>> GetChildrenRelatedToParent(
             IDictionary<string, FactDimensions> mappedParentIdWithDimension)
         {
-            return mappedParentIdWithDimension.AsParallel().ToDictionary(
-                pair => pair.Key,
-                pair => DatabaseUtils.ExecuteQuery(
+            var ret = new ConcurrentDictionary<string, IEnumerable<Fact>>();
+            Parallel.ForEach(mappedParentIdWithDimension, new ParallelOptions {MaxDegreeOfParallelism = 3}, (pair) =>
+            {
+                ret[pair.Key] = DatabaseUtils.ExecuteQuery(
                     QueryCreator.GetChildIdQuery(pair.Value))
                     .GetDataRows()
-                    .Select(Fact.GetFactFromRow));
+                    .Select(Fact.GetFactFromRow);
+            });
+            return ret;
         }
 
         public IDictionary<string, IEnumerable<Fact>> GetParentToChildrenMap()
