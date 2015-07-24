@@ -1,2 +1,4 @@
-/**/bin/*
-*.exe
+showChildParentRelationShip/bin/
+ParentChildRelationshipTest/bin/
+showChildParentRelationShip/obj/
+ParentChildRelationshipTest/obj/

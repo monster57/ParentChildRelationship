@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ParentChildRelationship
 {
@@ -22,7 +23,7 @@ namespace ParentChildRelationship
         private static IDictionary<string, IEnumerable<Fact>> GetChildrenRelatedToParent(
             IDictionary<string, FactDimensions> mappedParentIdWithDimension)
         {
-            return mappedParentIdWithDimension.ToDictionary(
+            return mappedParentIdWithDimension.AsParallel().ToDictionary(
                 pair => pair.Key,
                 pair => DatabaseUtils.ExecuteQuery(
                     QueryCreator.GetChildIdQuery(pair.Value))

@@ -1,8 +1,0 @@
-D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShip\bin\Debug\ParentChildRelationship.exe.config
-D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShip\bin\Debug\ParentChildRelationship.exe
-D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShip\bin\Debug\ParentChildRelationship.pdb
-D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShip\bin\Debug\nunit.framework.dll
-D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShip\bin\Debug\nunit.framework.xml
-D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShip\obj\Debug\ParentChildRelationship.exe
-D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShip\obj\Debug\ParentChildRelationship.pdb
-D:\Practice Visual Studio\showChildParentRelationShip\showChildParentRelationShip\obj\Debug\ParentChildRelationShip.csprojResolveAssemblyReference.cache
