@@ -1,9 +1,18 @@
+using System;
 using System.Configuration;
 
 namespace ParentChildRelationship
 {
     public static class ConfigSettings
     {
+        public static string ConnectionString
+        {
+            get { return ConfigurationManager.ConnectionStrings["parentChildRelation"].ConnectionString;} 
+        }
+
+        public static int DegreeOfParallelism {
+            get { return Convert.ToInt32(ConfigurationManager.AppSettings["degreeOfParallelism"]); } 
+        }
         public static string How3Key
         {
             get { return ConfigurationManager.AppSettings["How3Key"]; }
