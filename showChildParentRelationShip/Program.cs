@@ -30,7 +30,7 @@ namespace ParentChildRelationship
             sw.Start();
             action.Invoke();
             sw.Stop();
-            Console.WriteLine("Took {0} milliseconds :)" + sw.ElapsedMilliseconds);
+            Console.WriteLine("Took {0} milliseconds :)" , sw.ElapsedMilliseconds);
         }
     }
 }

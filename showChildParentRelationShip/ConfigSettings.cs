@@ -5,6 +5,10 @@ namespace ParentChildRelationship
 {
     public static class ConfigSettings
     {
+        public static int ConnectionCount {
+            get { return Convert.ToInt32(ConfigurationManager.AppSettings["connectionCount"]); }
+        }
+
         public static string ConnectionString
         {
             get { return ConfigurationManager.ConnectionStrings["parentChildRelation"].ConnectionString;} 

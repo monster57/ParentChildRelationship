@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using MySql.Data.MySqlClient;
 
 namespace ParentChildRelationship
 {
@@ -12,7 +10,7 @@ namespace ParentChildRelationship
     {
         private static IDictionary<string, FactDimensions> GetParentDimensionMap()
         {
-            return DatabaseUtils.ExecuteQuery(QueryCreator.GetParentIdQuery(), ConnectionPool.GiveMeConnection())
+            return DatabaseUtils.ExecuteQuery(QueryCreator.GetParentIdQuery(), ConnectionPool.GetAvailableConnection())
                 .GetDataRows()
                 .Where(IsRowValid)
                 .ToDictionary(row => row.GetValue(ConfigSettings.Id), FactDimensions.GetFactDimensionsFromRow);
@@ -30,20 +28,17 @@ namespace ParentChildRelationship
             Parallel.ForEach(mappedParentIdWithDimension,
                 new ParallelOptions {MaxDegreeOfParallelism = ConfigSettings.DegreeOfParallelism}, pair =>
                 {
-                    var sqlConnectionWrapper = ConnectionPool.GiveMeConnection();
                     ret[pair.Key] = DatabaseUtils.ExecuteQuery(
-                        QueryCreator.GetChildIdQuery(pair.Value), sqlConnectionWrapper)
+                        QueryCreator.GetChildIdQuery(pair.Value), ConnectionPool.GetAvailableConnection())
                         .GetDataRows()
                         .Select(Fact.GetFactFromRow);
-
-                    //Console.WriteLine("*************************** {0}", sqlConnectionWrapper.Id);
                 });
             return ret;
         }
 
         public IDictionary<string, IEnumerable<Fact>> GetParentToChildrenMap()
         {
-            ConnectionPool.Initialize(ConfigSettings.DegreeOfParallelism);
+            ConnectionPool.Initialize(ConfigSettings.ConnectionCount);
             return GetChildrenRelatedToParent(GetParentDimensionMap());
         }
     }

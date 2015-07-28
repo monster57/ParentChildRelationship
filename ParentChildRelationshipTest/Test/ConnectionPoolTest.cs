@@ -20,9 +20,9 @@ namespace ParentChildRelationshipTest.Test
         [Test]
         public void GetMeOneConnection()
         {
-            var con = ConnectionPool.GiveMeConnection();
+            var con = ConnectionPool.GetAvailableConnection();
             ConnectionPool.ReturnConnection(con);
-            var con1 = ConnectionPool.GiveMeConnection();
+            var con1 = ConnectionPool.GetAvailableConnection();
             Assert.AreEqual(con, con1);
         }
 
@@ -39,9 +39,14 @@ namespace ParentChildRelationshipTest.Test
         {
             for (var i = 0; i < 5; i++)
             {
-                ConnectionPool.GiveMeConnection();
+                ConnectionPool.GetAvailableConnection();
             }
         }
 
+        [Test]
+        public void ShouldWaitToGetAConnectionIfConnectionIsNotAvailable()
+        {
+            
+        }
     }
 }

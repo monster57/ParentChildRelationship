@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,7 +15,7 @@ namespace ParentChildRelationship
 
         private static void PrintFact(string parentFactId, string factId)
         {
-            Console.WriteLine("{0} ==> {1}", parentFactId, factId);
+            Logger.Log("{0} ==> {1}", parentFactId, factId);
         }
     }
 }
