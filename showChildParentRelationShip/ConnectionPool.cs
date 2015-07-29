@@ -1,11 +1,10 @@
 using System.Collections.Concurrent;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading;
 
 namespace ParentChildRelationship
 {
-    public class ConnectionPool
+    public static class ConnectionPool
     {
         private static ConcurrentBag<SqlConnectionWrapper> _sqlConnectionWrappers;
         private static readonly object LockObject = new object();
@@ -26,22 +25,18 @@ namespace ParentChildRelationship
 
         public static SqlConnectionWrapper GetAvailableConnection()
         {
-            while (true)
+            lock (LockObject)
             {
-                lock (LockObject)
-                {
-                    if (!_sqlConnectionWrappers.Any(l => l.IsAvailable)) continue;
-                    var con = _sqlConnectionWrappers.First(item => item.IsAvailable);
-                    con.IsAvailable = false;
-                    return con;
-                }
+                if (!_sqlConnectionWrappers.Any(l => l.IsAvailable)) Thread.Sleep(5);
+                var con = _sqlConnectionWrappers.First(item => item.IsAvailable);
+                con.IsAvailable = false;
+                return con;
             }
         }
 
         public static void ReturnConnection(SqlConnectionWrapper con)
         {
             con.IsAvailable = true;
-
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using ParentChildRelationship;
 
@@ -33,20 +34,20 @@ namespace ParentChildRelationshipTest.Test
             Assert.AreEqual(connections, _numberOfConnections);
         }
 
+        
         [Test]
-        [ExpectedException(typeof (InvalidOperationException))]
-        public void ShouldGiveExceptionWhenConnectionUnavailable()
+        [Timeout(2000)]
+        public void ShouldGetConnectionIfThreadIsMoreThanConnection()
         {
-            for (var i = 0; i < 5; i++)
+            SqlConnectionWrapper connection = null;
+            for (var i = 0; i < 4; i++)
             {
-                ConnectionPool.GetAvailableConnection();
+                connection = ConnectionPool.GetAvailableConnection();
             }
+            ConnectionPool.ReturnConnection(connection);
+            ConnectionPool.GetAvailableConnection();
         }
 
-        [Test]
-        public void ShouldWaitToGetAConnectionIfConnectionIsNotAvailable()
-        {
-            
-        }
+        
     }
 }
