@@ -10,10 +10,11 @@ namespace ParentChildRelationship
     {
         private static IDictionary<string, FactDimensions> GetParentDimensionMap()
         {
-            return DatabaseUtils.ExecuteQuery(QueryCreator.GetParentIdQuery(), ConnectionPool.GetAvailableConnection())
-                .GetDataRows()
-                .Where(IsRowValid)
-                .ToDictionary(row => row.GetValue(ConfigSettings.Id), FactDimensions.GetFactDimensionsFromRow);
+            return
+                ConnectionPool.Execute(QueryCreator.GetParentIdQuery())
+                    .GetDataRows()
+                    .Where(IsRowValid)
+                    .ToDictionary(row => row.GetValue(ConfigSettings.Id), FactDimensions.GetFactDimensionsFromRow);
         }
 
         private static bool IsRowValid(DataRow row)
@@ -28,10 +29,10 @@ namespace ParentChildRelationship
             Parallel.ForEach(mappedParentIdWithDimension,
                 new ParallelOptions {MaxDegreeOfParallelism = ConfigSettings.DegreeOfParallelism}, pair =>
                 {
-                    ret[pair.Key] = DatabaseUtils.ExecuteQuery(
-                        QueryCreator.GetChildIdQuery(pair.Value), ConnectionPool.GetAvailableConnection())
-                        .GetDataRows()
-                        .Select(Fact.GetFactFromRow);
+                    ret[pair.Key] =
+                        ConnectionPool.Execute(QueryCreator.GetChildIdQuery(pair.Value))
+                            .GetDataRows()
+                            .Select(Fact.GetFactFromRow);
                 });
             return ret;
         }

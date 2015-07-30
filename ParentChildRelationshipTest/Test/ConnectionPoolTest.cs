@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Configuration;
-using System.Threading.Tasks;
 using NUnit.Framework;
 using ParentChildRelationship;
 
@@ -18,14 +17,6 @@ namespace ParentChildRelationshipTest.Test
 
         private int _numberOfConnections;
 
-        [Test]
-        public void GetMeOneConnection()
-        {
-            var con = ConnectionPool.GetAvailableConnection();
-            ConnectionPool.ReturnConnection(con);
-            var con1 = ConnectionPool.GetAvailableConnection();
-            Assert.AreEqual(con, con1);
-        }
 
         [Test]
         public void ShouldCreateConnectionsFromConfigSetting()
@@ -33,21 +24,5 @@ namespace ParentChildRelationshipTest.Test
             var connections = ConnectionPool.GetNumberOfConnections();
             Assert.AreEqual(connections, _numberOfConnections);
         }
-
-        
-        [Test]
-        [Timeout(2000)]
-        public void ShouldGetConnectionIfThreadIsMoreThanConnection()
-        {
-            SqlConnectionWrapper connection = null;
-            for (var i = 0; i < 4; i++)
-            {
-                connection = ConnectionPool.GetAvailableConnection();
-            }
-            ConnectionPool.ReturnConnection(connection);
-            ConnectionPool.GetAvailableConnection();
-        }
-
-        
     }
 }

@@ -62,6 +62,14 @@ namespace ParentChildRelationship
                    " join (select " + GetDimension(ConfigSettings.Child) +
                    GetFromClause(ConfigSettings.ParentChildTable) +GetWhereClause(factDimension)+
                    ") "+ConfigSettings.Child + GetJoincaluse(ConfigSettings.Child);
+
+            
+
+
+
+
+
+
         }
     }
 }

@@ -14,7 +14,7 @@ namespace ParentChildRelationshipTest.Integration_Test
             var expected = new List<Fact> {new Fact {FactId = "432"}};
             IEnumerable<Fact> factList;
             var dictionary = new ParentChildUtil().GetParentToChildrenMap();
-            var parentId = "424";
+            const string parentId = "424";
             dictionary.TryGetValue(parentId, out factList);
             if (factList == null) return;
             var actual = factList as List<Fact> ?? factList.ToList();

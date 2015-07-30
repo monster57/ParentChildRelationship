@@ -45,8 +45,7 @@ namespace ParentChildRelationshipTest.Integration_Test
             datatable.Rows.Add(Helper.GetStandardFactDataRow(datatable, factDimension1));
 
             var expected = datatable.GetDataRows().ToList();
-            var actual =
-                DatabaseUtils.ExecuteQuery(query, ConnectionPool.GetAvailableConnection()).GetDataRows().ToList();
+            var actual = ConnectionPool.Execute(query).GetDataRows().ToList();
             Assert.AreEqual(expected.Count, actual.Count);
             Assert.AreEqual(expected.ToString(), actual.ToString());
         }

@@ -1,42 +1,45 @@
-using System.Collections.Concurrent;
-using System.Linq;
-using System.Threading;
+using System.Collections.Generic;
+using System.Data;
 
 namespace ParentChildRelationship
 {
     public static class ConnectionPool
     {
-        private static ConcurrentBag<SqlConnectionWrapper> _sqlConnectionWrappers;
-        private static readonly object LockObject = new object();
+        private static List<SqlConnectionWrapper> _sqlConnectionWrappers;
+        private static volatile int _currentConnectionId;
 
         public static void Initialize(int numberOfConnections)
         {
-            _sqlConnectionWrappers = new ConcurrentBag<SqlConnectionWrapper>();
+            _sqlConnectionWrappers = new List<SqlConnectionWrapper>();
             for (var i = 1; i <= numberOfConnections; i++)
             {
                 _sqlConnectionWrappers.Add(new SqlConnectionWrapper(ConfigSettings.ConnectionString, i));
             }
         }
 
-        public static int GetNumberOfConnections()
+        public static DataTable Execute(string query)
         {
-            return _sqlConnectionWrappers.Count;
+            DataTable result = null;
+            GetConnectionWrapper().Execute((sqlConnection => result = DatabaseUtils.ExecuteQuery(query, sqlConnection)));
+            return result;
         }
 
-        public static SqlConnectionWrapper GetAvailableConnection()
+        private static SqlConnectionWrapper GetConnectionWrapper()
         {
-            lock (LockObject)
+            try
             {
-                if (!_sqlConnectionWrappers.Any(l => l.IsAvailable)) Thread.Sleep(5);
-                var con = _sqlConnectionWrappers.First(item => item.IsAvailable);
-                con.IsAvailable = false;
-                return con;
+                if (_currentConnectionId > 3) _currentConnectionId = 1;
+                return _sqlConnectionWrappers[_currentConnectionId];
+            }
+            finally
+            {
+                _currentConnectionId++;
             }
         }
 
-        public static void ReturnConnection(SqlConnectionWrapper con)
+        public static int GetNumberOfConnections()
         {
-            con.IsAvailable = true;
+            return _sqlConnectionWrappers.Count;
         }
     }
 }
