@@ -19,22 +19,13 @@ namespace ParentChildRelationship
                    " and " + ConfigSettings.Anchor + ConfigSettings.How3Key + " = " + dimensions.Howkey +
                    " and " + ConfigSettings.When3Key + " = " + dimensions.Whenkey;
         }
+
         private static string GetDimensionWithPrefix(string category)
         {
             string[] dimension =
             {
                 category + "." + ConfigSettings.When3Key, category + "." + category + ConfigSettings.How3Key,
                 category + "." + category + ConfigSettings.WhatKey, category + "." + category + ConfigSettings.Where4Key
-            };
-            return string.Join(" , ", dimension) + " ";
-        }
-
-        private static string GetDimension(string category)
-        {
-            string[] dimension =
-            {
-                ConfigSettings.When3Key, category + ConfigSettings.How3Key,
-                category + ConfigSettings.Where4Key, category + ConfigSettings.WhatKey
             };
             return string.Join(" , ", dimension) + " ";
         }
@@ -51,15 +42,14 @@ namespace ParentChildRelationship
                    category + ConfigSettings.Where4Key + ";";
         }
 
-        
-
-        
-
-        private static string CreateChildDimensionString()
+        private static string GetDimension(string category)
         {
-            return ConfigSettings.When3Key + " , " + ConfigSettings.Child + ConfigSettings.How3Key +
-                   " , " + ConfigSettings.Child + ConfigSettings.Where4Key + " , " +
-                   ConfigSettings.Child + ConfigSettings.WhatKey;
+            string[] dimension =
+            {
+                ConfigSettings.When3Key, category + ConfigSettings.How3Key,
+                category + ConfigSettings.Where4Key, category + ConfigSettings.WhatKey
+            };
+            return string.Join(" , ", dimension) + " ";
         }
 
         public static string GetParentIdQuery()
@@ -85,7 +75,7 @@ namespace ParentChildRelationship
                    "(select distinct child.childWhatKey , tab.childHow3Key , tab.childWhere4Key , tab.When3Key " +
                    GetFromClause(ConfigSettings.ParentChildTable) +
                    " " + ConfigSettings.Child + " join " +
-                   "(" + GetSelectClause(GetDimension(ConfigSettings.Child))+
+                   "(" + GetSelectClause(GetDimension(ConfigSettings.Child)) +
                    GetFromClause(ConfigSettings.ParentChildTable) +
                    GetWhereClause(factDimension) +
                    ") tab " +
