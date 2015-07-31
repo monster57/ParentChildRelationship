@@ -7,6 +7,18 @@ namespace ParentChildRelationship
             return "select " + id;
         }
 
+        private static string GetFromClause(string datatable)
+        {
+            return "from " + ConfigSettings.Schema + "." + datatable;
+        }
+
+        private static string GetWhereClause(FactDimensions dimensions)
+        {
+            return " where " + ConfigSettings.Anchor + ConfigSettings.WhatKey + " = " + dimensions.Whatkey +
+                   " and " + ConfigSettings.Anchor + ConfigSettings.Where4Key + " = " + dimensions.Wherekey +
+                   " and " + ConfigSettings.Anchor + ConfigSettings.How3Key + " = " + dimensions.Howkey +
+                   " and " + ConfigSettings.When3Key + " = " + dimensions.Whenkey;
+        }
         private static string GetDimensionWithPrefix(string category)
         {
             string[] dimension =
@@ -39,17 +51,15 @@ namespace ParentChildRelationship
                    category + ConfigSettings.Where4Key + ";";
         }
 
-        private static string GetFromClause(string datatable)
-        {
-            return "from " + ConfigSettings.Schema + "." + datatable;
-        }
+        
 
-        private static string GetWhereClause(FactDimensions dimensions)
+        
+
+        private static string CreateChildDimensionString()
         {
-            return " where " + ConfigSettings.Anchor + ConfigSettings.WhatKey + " = " + dimensions.Whatkey +
-                   " and " + ConfigSettings.Anchor + ConfigSettings.Where4Key + " = " + dimensions.Wherekey +
-                   " and " + ConfigSettings.Anchor + ConfigSettings.How3Key + " = " + dimensions.Howkey +
-                   " and " + ConfigSettings.When3Key + " = " + dimensions.Whenkey;
+            return ConfigSettings.When3Key + " , " + ConfigSettings.Child + ConfigSettings.How3Key +
+                   " , " + ConfigSettings.Child + ConfigSettings.Where4Key + " , " +
+                   ConfigSettings.Child + ConfigSettings.WhatKey;
         }
 
         public static string GetParentIdQuery()
@@ -64,30 +74,30 @@ namespace ParentChildRelationship
 
         public static string GetChildIdQuery(FactDimensions factDimension)
         {
-            return "select fact.id from fact_dimension_relationship.fact_data fact " +
-                               "join (select distinct tab.childWhatKey , tab.childHow3Key , child.childWhere4Key , tab.When3Key " +
-                               "from fact_dimension_relationship.parent_child_data child join " +
-                               "(select distinct tab.childWhatKey , child.childHow3Key , tab.childWhere4Key , tab.When3Key " +
-                               "from fact_dimension_relationship.parent_child_data child join " +
-                               "(select distinct child.childWhatKey , tab.childHow3Key , tab.childWhere4Key , tab.When3Key " +
-                               "from fact_dimension_relationship.parent_child_data child join " +
-                               "(select when3Key , childhow3Key , childwhere4Key , childwhatKey from " +
-                               "fact_dimension_relationship.parent_child_data where anchorwhatKey = " + factDimension.Whatkey +
-                               " and anchorwhere4Key = " + factDimension.Wherekey +
-                               " and anchorhow3Key = " + factDimension.Howkey +
-                               " and when3Key = " + factDimension.Whenkey +
-                               ") tab " +
-                               "on child.childWhatkey = tab.childwhatkey " +
-                               "or tab.childwhatkey = '*' " +
-                               "where child.childwhatkey !='*') tab on child.childHow3Key = tab.childHow3Key " +
-                               "or tab.childHow3Key = '*' " +
-                               "where child.childHow3Key!='*') tab " +
-                               "on child.childWhere4Key = tab.childWhere4Key " +
-                               "or tab.childWhere4Key = '*' " +
-                               "where child.childWhere4Key !='*') child " +
-                               "on fact.whatKey = child.childwhatKey and fact.how3Key = child.childhow3Key " +
-                               "and fact.when3Key = child.when3Key and fact.where4Key = child.childwhere4Key";
-
+            return GetSelectClause(ConfigSettings.Fact + "." + ConfigSettings.Id) +
+                   " " + GetFromClause(ConfigSettings.FactDataTable) + " " + ConfigSettings.Fact + " " +
+                   "join (select distinct tab.childWhatKey , tab.childHow3Key , child.childWhere4Key , tab.When3Key " +
+                   GetFromClause(ConfigSettings.ParentChildTable) +
+                   " " + ConfigSettings.Child + " join " +
+                   "(select distinct tab.childWhatKey , child.childHow3Key , tab.childWhere4Key , tab.When3Key " +
+                   GetFromClause(ConfigSettings.ParentChildTable) +
+                   " " + ConfigSettings.Child + " join " +
+                   "(select distinct child.childWhatKey , tab.childHow3Key , tab.childWhere4Key , tab.When3Key " +
+                   GetFromClause(ConfigSettings.ParentChildTable) +
+                   " " + ConfigSettings.Child + " join " +
+                   "(" + GetSelectClause(GetDimension(ConfigSettings.Child))+
+                   GetFromClause(ConfigSettings.ParentChildTable) +
+                   GetWhereClause(factDimension) +
+                   ") tab " +
+                   "on child.childWhatkey = tab.childwhatkey " +
+                   "or tab.childwhatkey = '*' " +
+                   "where child.childwhatkey !='*') tab on child.childHow3Key = tab.childHow3Key " +
+                   "or tab.childHow3Key = '*' " +
+                   "where child.childHow3Key!='*') tab " +
+                   "on child.childWhere4Key = tab.childWhere4Key " +
+                   "or tab.childWhere4Key = '*' " +
+                   "where child.childWhere4Key !='*') child" +
+                   GetJoincaluse(ConfigSettings.Child);
         }
     }
 }
