@@ -29,6 +29,7 @@ namespace ParentChildRelationship
             Parallel.ForEach(mappedParentIdWithDimension,
                 new ParallelOptions {MaxDegreeOfParallelism = ConfigSettings.DegreeOfParallelism}, pair =>
                 {
+                    var c = QueryCreator.GetChildIdQuery(pair.Value);                   
                     ret[pair.Key] =
                         ConnectionPool.Execute(QueryCreator.GetChildIdQuery(pair.Value))
                             .GetDataRows()
