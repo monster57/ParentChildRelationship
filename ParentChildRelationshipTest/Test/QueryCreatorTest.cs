@@ -33,14 +33,13 @@ namespace ParentChildRelationshipTest.Test
         [Test]
         public void ShouldGiveAQueryToGetAllTheParentIdWithDimensions()
         {
-            const string query = "select fact.id ," +
-                                 " anchor.when3Key , anchor.anchorhow3Key , anchor.anchorwhatKey , anchor.anchorwhere4Key" +
-                                 " from fact_dimension_relationship.fact_data fact join" +
-                                 " (select Distinct when3Key , anchorhow3Key , anchorwhere4Key , anchorwhatKey from fact_dimension_relationship.parent_child_data)" +
-                                 " anchor on fact.whatKey = anchor.anchorwhatKey" +
-                                 " and fact.how3Key = anchor.anchorhow3Key" +
-                                 " and fact.when3Key = anchor.when3Key" +
-                                 " and fact.where4Key = anchor.anchorwhere4Key;";
+            const string query = "select distinct fact.id , fact.WhatKey , fact.How3Key , fact.Where4Key , fact.When3Key" +
+                               " from fact_dimension_relationship.fact_data fact " +
+                               "join fact_dimension_relationship.parent_child_data child " +
+                               "on fact.WhatKey = child.anchorWhatKey " +
+                               "and fact.Where4Key = child.anchorWhere4Key " +
+                               "and fact.How3Key = child.anchorHow3Key " +
+                               "and fact.When3Key  = child.When3Key;";
 
             Assert.AreEqual(query, QueryCreator.GetParentIdQuery());
         }

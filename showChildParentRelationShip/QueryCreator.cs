@@ -2,7 +2,7 @@ namespace ParentChildRelationship
 {
     public static class QueryCreator
     {
-        private static string GetSelectClause(string id)
+        private static string GetSelectDistinctClause(string id)
         {
             return "select " + id;
         }
@@ -24,8 +24,8 @@ namespace ParentChildRelationship
         {
             string[] dimension =
             {
-                category + "." + ConfigSettings.When3Key, category + "." + category + ConfigSettings.How3Key,
-                category + "." + category + ConfigSettings.WhatKey, category + "." + category + ConfigSettings.Where4Key
+                category + "." + ConfigSettings.When3Key, category + "." +  ConfigSettings.How3Key,
+                category + "."  + ConfigSettings.WhatKey, category + "." + ConfigSettings.Where4Key
             };
             return string.Join(" , ", dimension) + " ";
         }
@@ -52,30 +52,31 @@ namespace ParentChildRelationship
             return string.Join(" , ", dimension) + " ";
         }
 
+
         public static string GetParentIdQuery()
         {
-            return GetSelectClause(ConfigSettings.Fact + "." + ConfigSettings.Id) + " , "
-                   + GetDimensionWithPrefix(ConfigSettings.Anchor)
-                   + GetFromClause(ConfigSettings.FactDataTable) + " " + ConfigSettings.Fact + " join " +
-                   "(select Distinct " + GetDimension(ConfigSettings.Anchor) +
-                   GetFromClause(ConfigSettings.ParentChildTable) + ") " +
-                   ConfigSettings.Anchor + GetJoincaluse(ConfigSettings.Anchor);
+            return "select distinct fact.id , fact.WhatKey , fact.How3Key , fact.Where4Key , fact.When3Key "+
+                   "from fact_dimension_relationship.fact_data fact " +
+                   "join fact_dimension_relationship.parent_child_data child " +
+                   "on fact.WhatKey = child.anchorWhatKey " +
+                   "and fact.Where4Key = child.anchorWhere4Key " +
+                   "and fact.How3Key = child.anchorHow3Key " +
+                   "and fact.When3Key  = child.When3Key;";
         }
 
         public static string GetChildIdQuery(FactDimensions factDimension)
         {
-
             return "select distinct fact.id " +
-                  "from fact_dimension_relationship.fact_data fact " +
-                  "join fact_dimension_relationship.parent_child_data child " +
-                  "on ( fact.WhatKey = child.childWhatKey or child.childWhatKey = '*') " +
-                  "and ( fact.Where4Key = child.childWhere4Key or child.childWhere4Key = '*') " +
-                  "and ( fact.How3Key = child.childHow3Key or child.childHow3Key = '*' ) " +
-                  "and fact.When3Key = child.When3Key " +
-                  "and child.anchorwhatKey = " + factDimension.Whatkey +
-                  " and child.anchorwhere4Key = " + factDimension.Wherekey +
-                  " and child.anchorhow3Key = " + factDimension.Howkey +
-                  " and child.when3Key = " + factDimension.Whenkey + ";";
+                   "from fact_dimension_relationship.fact_data fact " +
+                   "join fact_dimension_relationship.parent_child_data child " +
+                   "on ( fact.WhatKey = child.childWhatKey or child.childWhatKey = '*') " +
+                   "and ( fact.Where4Key = child.childWhere4Key or child.childWhere4Key = '*') " +
+                   "and ( fact.How3Key = child.childHow3Key or child.childHow3Key = '*' ) " +
+                   "and fact.When3Key = child.When3Key " +
+                   "and child.anchorwhatKey = " + factDimension.Whatkey +
+                   " and child.anchorwhere4Key = " + factDimension.Wherekey +
+                   " and child.anchorhow3Key = " + factDimension.Howkey +
+                   " and child.when3Key = " + factDimension.Whenkey + ";";
         }
     }
 }
