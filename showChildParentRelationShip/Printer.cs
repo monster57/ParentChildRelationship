@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,13 +10,15 @@ namespace ParentChildRelationship
         {
             foreach (var parentChildIdPair in parentToChildrenMap)
             {
+                
                 parentChildIdPair.Value.ToList().ForEach(fact => { PrintFact(parentChildIdPair.Key, fact.FactId); });
             }
         }
 
         private static void PrintFact(string parentFactId, string factId)
         {
-            Logger.Log("{0} ==> {1}", parentFactId, factId);
+
+                Logger.Log("{0} ==> {1}", parentFactId, factId);
         }
     }
 }

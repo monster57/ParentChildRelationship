@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace ParentChildRelationship
 {
     internal class Program
     {
-       
         private static void Main()
         {
             Run();
@@ -17,11 +13,7 @@ namespace ParentChildRelationship
 
         private static void Run()
         {
-            RunWithTimeCheck(() =>
-            {
-                Printer.Print(new ParentChildUtil().GetParentToChildrenMap());
-            });
-
+            RunWithTimeCheck(() => { Printer.Print(new ParentChildUtil().GetParentToChildrenMap()); });
         }
 
         private static void RunWithTimeCheck(Action action)
@@ -30,7 +22,7 @@ namespace ParentChildRelationship
             sw.Start();
             action.Invoke();
             sw.Stop();
-            Console.WriteLine("Took {0} milliseconds :)" , sw.ElapsedMilliseconds);
+            Console.WriteLine("Took {0} milliseconds :)", sw.ElapsedMilliseconds);
         }
     }
 }

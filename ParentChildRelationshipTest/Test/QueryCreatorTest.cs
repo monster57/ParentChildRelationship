@@ -9,29 +9,15 @@ namespace ParentChildRelationshipTest.Test
         [Test]
         public void ShouldGiveAQueryToGetAllTheParentChildIdFromFactDimension()
         {
-            const string query = "select fact.id from fact_dimension_relationship.fact_data fact " +
-                               "join (select distinct tab.childWhatKey , tab.childHow3Key , child.childWhere4Key , tab.When3Key " +
-                               "from fact_dimension_relationship.parent_child_data child join " +
-                               "(select distinct tab.childWhatKey , child.childHow3Key , tab.childWhere4Key , tab.When3Key " +
-                               "from fact_dimension_relationship.parent_child_data child join " +
-                               "(select distinct child.childWhatKey , tab.childHow3Key , tab.childWhere4Key , tab.When3Key " +
-                               "from fact_dimension_relationship.parent_child_data child join " +
-                               "(select when3Key , childhow3Key , childwhere4Key , childwhatKey from " +
-                               "fact_dimension_relationship.parent_child_data where anchorwhatKey = 12" +
-                               " and anchorwhere4Key = 1" +
-                               " and anchorhow3Key = 2" +
-                               " and when3Key = 8" +
-                               ") tab " +
-                               "on child.childWhatkey = tab.childwhatkey " +
-                               "or tab.childwhatkey = '*' " +
-                               "where child.childwhatkey !='*') tab on child.childHow3Key = tab.childHow3Key " +
-                               "or tab.childHow3Key = '*' " +
-                               "where child.childHow3Key!='*') tab " +
-                               "on child.childWhere4Key = tab.childWhere4Key " +
-                               "or tab.childWhere4Key = '*' " +
-                               "where child.childWhere4Key !='*') child " +
-                               "on fact.whatKey = child.childwhatKey and fact.how3Key = child.childhow3Key " +
-                               "and fact.when3Key = child.when3Key and fact.where4Key = child.childwhere4Key;";
+            const string query = "select distinct fact.id " +
+                   "from fact_dimension_relationship.fact_data fact " +
+                   "join fact_dimension_relationship.parent_child_data child" +
+                   "on ( fact.WhatKey = child.childWhatKey or child.childWhatKey = '*') " +
+                   "and ( fact.Where4Key = child.childWhere4Key or child.childWhere4Key = '*' )" +
+                   "and ( fact.How3Key = child.childHow3Key or child.childHow3Key = '*' ) and " +
+                   "fact.When3Key = child.When3Key" +
+                   "and child.anchorwhatKey = 12 and child.anchorwhere4Key = 1 " +
+                   "and child.anchorhow3Key = 2 and child.when3Key = 8;"; ;
             var factDimension = new FactDimensions
             {
                 Howkey = "2",

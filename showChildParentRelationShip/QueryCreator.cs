@@ -64,30 +64,17 @@ namespace ParentChildRelationship
 
         public static string GetChildIdQuery(FactDimensions factDimension)
         {
-            return GetSelectClause(ConfigSettings.Fact + "." + ConfigSettings.Id) +
-                   " " + GetFromClause(ConfigSettings.FactDataTable) + " " + ConfigSettings.Fact + " " +
-                   "join (select distinct tab.childWhatKey , tab.childHow3Key , child.childWhere4Key , tab.When3Key " +
-                   GetFromClause(ConfigSettings.ParentChildTable) +
-                   " " + ConfigSettings.Child + " join " +
-                   "(select distinct tab.childWhatKey , child.childHow3Key , tab.childWhere4Key , tab.When3Key " +
-                   GetFromClause(ConfigSettings.ParentChildTable) +
-                   " " + ConfigSettings.Child + " join " +
-                   "(select distinct child.childWhatKey , tab.childHow3Key , tab.childWhere4Key , tab.When3Key " +
-                   GetFromClause(ConfigSettings.ParentChildTable) +
-                   " " + ConfigSettings.Child + " join " +
-                   "(" + GetSelectClause(GetDimension(ConfigSettings.Child)) +
-                   GetFromClause(ConfigSettings.ParentChildTable) +
-                   GetWhereClause(factDimension) +
-                   ") tab " +
-                   "on child.childWhatkey = tab.childwhatkey " +
-                   "or tab.childwhatkey = '*' " +
-                   "where child.childwhatkey !='*') tab on child.childHow3Key = tab.childHow3Key " +
-                   "or tab.childHow3Key = '*' " +
-                   "where child.childHow3Key!='*') tab " +
-                   "on child.childWhere4Key = tab.childWhere4Key " +
-                   "or tab.childWhere4Key = '*' " +
-                   "where child.childWhere4Key !='*') child" +
-                   GetJoincaluse(ConfigSettings.Child);
+            return "select distinct fact.id " +
+                   "from fact_dimension_relationship.fact_data fact " +
+                   "join fact_dimension_relationship.parent_child_data child" +
+                   "on ( fact.WhatKey = child.childWhatKey or child.childWhatKey = '*') " +
+                   "and ( fact.Where4Key = child.childWhere4Key or child.childWhere4Key = '*' )" +
+                   "and ( fact.How3Key = child.childHow3Key or child.childHow3Key = '*' ) and " +
+                   "fact.When3Key = child.When3Key" +
+                   "and child.anchorwhatKey = " + factDimension.Whatkey +
+                   " and child.anchorwhere4Key = " + factDimension.Wherekey +
+                   " and child.anchorhow3Key = " + factDimension.Howkey +
+                   " and child.when3Key = " + factDimension.Whenkey + ";";
         }
     }
 }
