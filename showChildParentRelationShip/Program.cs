@@ -13,7 +13,8 @@ namespace ParentChildRelationship
 
         private static void Run()
         {
-            RunWithTimeCheck(() => { Printer.Print(new ParentChildUtil().GetParentToChildrenMap()); });
+            var relationMapper = new RelationMapper(new ParentChildUtil().GetParentToChildrenMap());
+            RunWithTimeCheck(() => { Printer.Print(relationMapper.GiveRelationList()); });
         }
 
         private static void RunWithTimeCheck(Action action)

@@ -6,19 +6,18 @@ namespace ParentChildRelationship
 {
     internal class Printer
     {
-        public static void Print(IDictionary<string, IEnumerable<Fact>> parentToChildrenMap)
+        public static void Print(List<List<string>> parentToChildrenMap)
         {
-            foreach (var parentChildIdPair in parentToChildrenMap)
+            foreach (var list in parentToChildrenMap)
             {
-                
-                parentChildIdPair.Value.ToList().ForEach(fact => { PrintFact(parentChildIdPair.Key, fact.FactId); });
+                PrintFact(string.Join("==>" , list));
+               
             }
         }
 
-        private static void PrintFact(string parentFactId, string factId)
+        private static void PrintFact(string relationString)
         {
-
-                Logger.Log("{0} ==> {1}", parentFactId, factId);
+                Logger.Log("{0} " , relationString);
         }
     }
 }
