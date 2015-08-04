@@ -13,10 +13,10 @@ namespace ParentChildRelationshipTest.Test
         {
             var datatable = Helper.GetStandardFactDataTable();
             var dataRow = datatable.NewRow();
-            dataRow[ConfigSettings.AnchorWhatKey] = 59;
+            dataRow[ConfigSettings.WhatKey] = 59;
             dataRow[ConfigSettings.When3Key] = 5;
-            dataRow[ConfigSettings.AnchorWhere4Key] = 1;
-            dataRow[ConfigSettings.AnchorHow3Key] = 2;
+            dataRow[ConfigSettings.Where4Key] = 1;
+            dataRow[ConfigSettings.How3Key] = 2;
             datatable.Rows.Add(dataRow);
 
             var listDataRows = new List<DataRow> {dataRow};
@@ -42,9 +42,9 @@ namespace ParentChildRelationshipTest.Test
             const string expectedHow3Key = "2";
 
             Assert.AreEqual(dataRow.GetValue(ConfigSettings.When3Key), expectedWhen3Key);
-            Assert.AreEqual(dataRow.GetValue(ConfigSettings.AnchorWhere4Key), expectedWhere4Key);
-            Assert.AreEqual(dataRow.GetValue(ConfigSettings.AnchorWhatKey), expectedWhatKey);
-            Assert.AreEqual(dataRow.GetValue(ConfigSettings.AnchorHow3Key), expectedHow3Key);
+            Assert.AreEqual(dataRow.GetValue(ConfigSettings.Where4Key), expectedWhere4Key);
+            Assert.AreEqual(dataRow.GetValue(ConfigSettings.WhatKey), expectedWhatKey);
+            Assert.AreEqual(dataRow.GetValue(ConfigSettings.How3Key), expectedHow3Key);
         }
     }
 }

@@ -4,22 +4,17 @@ namespace ParentChildRelationship
     {
         private static string GetSelectDistinctClause(string id)
         {
-            return "select distinct " + id;
+            return "select distinct " + id+" ";
         }
 
         private static string GetFromClause(string datatable)
         {
             return "from " + ConfigSettings.Schema + "." + datatable+" ";
         }
-
-        private static string GetWhereClause(FactDimensions dimensions)
+        private static string GetJoinClause(string dataTable)
         {
-            return " where " + ConfigSettings.Anchor + ConfigSettings.WhatKey + " = " + dimensions.Whatkey +
-                   " and " + ConfigSettings.Anchor + ConfigSettings.Where4Key + " = " + dimensions.Wherekey +
-                   " and " + ConfigSettings.Anchor + ConfigSettings.How3Key + " = " + dimensions.Howkey +
-                   " and " + ConfigSettings.When3Key + " = " + dimensions.Whenkey;
+            return " join " + ConfigSettings.Schema + "." + dataTable + " ";
         }
-
         private static string GetDimensionWithOrigin(string category)
         {
             string[] dimension =
@@ -30,53 +25,55 @@ namespace ParentChildRelationship
             return string.Join(" , ", dimension) + " ";
         }
 
-        private static string GetOncaluse(string category , string prefix)
+        private static string GetOncaluse(string dependentTable , string category , string prefix)
         {
-            return " on " + ConfigSettings.Fact + "." + ConfigSettings.WhatKey + " = " + category + "." + prefix +
+            return " on " + dependentTable + "." + ConfigSettings.WhatKey + " = " + category + "." + prefix +
                    ConfigSettings.WhatKey +
-                   " and " + ConfigSettings.Fact + "." + ConfigSettings.How3Key + " = " + category + "." +
+                   " and " + dependentTable + "." + ConfigSettings.How3Key + " = " + category + "." +
                    prefix + ConfigSettings.How3Key +
-                   " and " + ConfigSettings.Fact + "." + ConfigSettings.When3Key + " = " + category + "." +
+                   " and " + dependentTable + "." + ConfigSettings.When3Key + " = " + category + "." +
                    ConfigSettings.When3Key +
-                   " and " + ConfigSettings.Fact + "." + ConfigSettings.Where4Key + " = " + category + "." +
+                   " and " + dependentTable + "." + ConfigSettings.Where4Key + " = " + category + "." +
                    prefix + ConfigSettings.Where4Key + ";";
         }
 
-        private static string GetDimension(string category)
+        private static string GetOnClauseOnValue(string depentdentTable , string prefix , FactDimensions fact)
         {
-            string[] dimension =
-            {
-                ConfigSettings.When3Key, category + ConfigSettings.How3Key,
-                category + ConfigSettings.Where4Key, category + ConfigSettings.WhatKey
-            };
-            return string.Join(" , ", dimension) + " ";
+            return " on " + depentdentTable + "." + prefix + ConfigSettings.WhatKey + " = " + fact.Whatkey +
+                   " and " + depentdentTable + "." + prefix + ConfigSettings.How3Key + "  = " + fact.Howkey +
+                   " and " + depentdentTable + "." + ConfigSettings.When3Key + " = " + fact.Whenkey +
+                   " and " + depentdentTable + "." + prefix + ConfigSettings.Where4Key + " = " + fact.Wherekey;
         }
 
-        private static string GetJoinClause(string dataTable)
+        private static string GetConditionForStar(string dependentTable , string category  , string prefix)
         {
-            return "join " + ConfigSettings.Schema + "." + dataTable+" ";
+            return " and ( " + dependentTable + "." + ConfigSettings.WhatKey + " = " + category + "." + prefix +
+                   ConfigSettings.WhatKey +
+                   " or " + category + "." + prefix + ConfigSettings.WhatKey + " = '*') " +
+                   "and ( " + dependentTable + "." + ConfigSettings.Where4Key + " = " + category + "." + prefix +
+                   ConfigSettings.Where4Key +
+                   " or " + category + "." + prefix + ConfigSettings.Where4Key + " = '*') " +
+                   "and ( " + dependentTable + "." + ConfigSettings.How3Key + " = " + category + "." + prefix +
+                   ConfigSettings.How3Key +
+                   " or " + category + "." + prefix + ConfigSettings.How3Key + " = '*') " +
+                   "and "+dependentTable+ "."+ ConfigSettings.When3Key+" = "+category + "."+ConfigSettings.When3Key +";";
         }
+        
         public static string GetParentIdQuery()
         {
-            return GetSelectDistinctClause(ConfigSettings.Fact+"."+ConfigSettings.Id)+" , "+GetDimensionWithOrigin(ConfigSettings.Fact)+
-                   GetFromClause(ConfigSettings.FactDataTable)+ConfigSettings.Fact+" "+
+            return GetSelectDistinctClause(ConfigSettings.Fact+"."+ConfigSettings.Id)+", "+GetDimensionWithOrigin(ConfigSettings.Fact)+
+                   GetFromClause(ConfigSettings.FactDataTable)+ConfigSettings.Fact+
                    GetJoinClause(ConfigSettings.ParentChildTable)+ConfigSettings.Child+
-                   GetOncaluse(ConfigSettings.Child , ConfigSettings.Anchor);
+                   GetOncaluse( ConfigSettings.Fact,ConfigSettings.Child , ConfigSettings.Anchor);
         }
 
         public static string GetChildIdQuery(FactDimensions factDimension)
         {
-            return "select distinct fact.id " +
-                   "from fact_dimension_relationship.fact_data fact " +
-                   "join fact_dimension_relationship.parent_child_data child " +
-                   "on ( fact.WhatKey = child.childWhatKey or child.childWhatKey = '*') " +
-                   "and ( fact.Where4Key = child.childWhere4Key or child.childWhere4Key = '*') " +
-                   "and ( fact.How3Key = child.childHow3Key or child.childHow3Key = '*' ) " +
-                   "and fact.When3Key = child.When3Key " +
-                   "and child.anchorwhatKey = " + factDimension.Whatkey +
-                   " and child.anchorwhere4Key = " + factDimension.Wherekey +
-                   " and child.anchorhow3Key = " + factDimension.Howkey +
-                   " and child.when3Key = " + factDimension.Whenkey + ";";
+            return GetSelectDistinctClause(ConfigSettings.Fact + "." + ConfigSettings.Id) + 
+                   GetFromClause(ConfigSettings.FactDataTable)+ConfigSettings.Fact+
+                   GetJoinClause(ConfigSettings.ParentChildTable)+ConfigSettings.Child+
+                   GetOnClauseOnValue(ConfigSettings.Child , ConfigSettings.Anchor , factDimension)+
+                   GetConditionForStar(ConfigSettings.Fact , ConfigSettings.Child , ConfigSettings.Child);
         }
     }
 }

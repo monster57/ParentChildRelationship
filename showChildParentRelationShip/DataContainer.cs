@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 
 namespace ParentChildRelationship
@@ -10,7 +11,6 @@ namespace ParentChildRelationship
     {
         private static IDictionary<string, FactDimensions> GetParentDimensionMap()
         {
-            var c = QueryCreator.GetParentIdQuery();
             return
                 ConnectionPool.Execute(QueryCreator.GetParentIdQuery())
                     .GetDataRows()
