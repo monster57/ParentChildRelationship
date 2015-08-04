@@ -33,7 +33,7 @@ namespace ParentChildRelationshipTest.Test
         [Test]
         public void ShouldGiveAQueryToGetAllTheParentIdWithDimensions()
         {
-            const string query = "select distinct fact.id , fact.WhatKey , fact.How3Key , fact.Where4Key , fact.When3Key" +
+            const string query = "select distinct fact.id , fact.When3Key , fact.How3Key , fact.WhatKey , fact.Where4Key" +
                                " from fact_dimension_relationship.fact_data fact " +
                                "join fact_dimension_relationship.parent_child_data child " +
                                "on fact.WhatKey = child.anchorWhatKey " +

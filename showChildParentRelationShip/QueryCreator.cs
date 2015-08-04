@@ -4,12 +4,12 @@ namespace ParentChildRelationship
     {
         private static string GetSelectDistinctClause(string id)
         {
-            return "select " + id;
+            return "select distinct " + id;
         }
 
         private static string GetFromClause(string datatable)
         {
-            return "from " + ConfigSettings.Schema + "." + datatable;
+            return "from " + ConfigSettings.Schema + "." + datatable+" ";
         }
 
         private static string GetWhereClause(FactDimensions dimensions)
@@ -20,7 +20,7 @@ namespace ParentChildRelationship
                    " and " + ConfigSettings.When3Key + " = " + dimensions.Whenkey;
         }
 
-        private static string GetDimensionWithPrefix(string category)
+        private static string GetDimensionWithOrigin(string category)
         {
             string[] dimension =
             {
@@ -30,16 +30,16 @@ namespace ParentChildRelationship
             return string.Join(" , ", dimension) + " ";
         }
 
-        private static string GetJoincaluse(string category)
+        private static string GetOncaluse(string category , string prefix)
         {
-            return " on " + ConfigSettings.Fact + "." + ConfigSettings.WhatKey + " = " + category + "." + category +
+            return " on " + ConfigSettings.Fact + "." + ConfigSettings.WhatKey + " = " + category + "." + prefix +
                    ConfigSettings.WhatKey +
                    " and " + ConfigSettings.Fact + "." + ConfigSettings.How3Key + " = " + category + "." +
-                   category + ConfigSettings.How3Key +
+                   prefix + ConfigSettings.How3Key +
                    " and " + ConfigSettings.Fact + "." + ConfigSettings.When3Key + " = " + category + "." +
                    ConfigSettings.When3Key +
                    " and " + ConfigSettings.Fact + "." + ConfigSettings.Where4Key + " = " + category + "." +
-                   category + ConfigSettings.Where4Key + ";";
+                   prefix + ConfigSettings.Where4Key + ";";
         }
 
         private static string GetDimension(string category)
@@ -52,16 +52,16 @@ namespace ParentChildRelationship
             return string.Join(" , ", dimension) + " ";
         }
 
-
+        private static string GetJoinClause(string dataTable)
+        {
+            return "join " + ConfigSettings.Schema + "." + dataTable+" ";
+        }
         public static string GetParentIdQuery()
         {
-            return "select distinct fact.id , fact.WhatKey , fact.How3Key , fact.Where4Key , fact.When3Key "+
-                   "from fact_dimension_relationship.fact_data fact " +
-                   "join fact_dimension_relationship.parent_child_data child " +
-                   "on fact.WhatKey = child.anchorWhatKey " +
-                   "and fact.Where4Key = child.anchorWhere4Key " +
-                   "and fact.How3Key = child.anchorHow3Key " +
-                   "and fact.When3Key  = child.When3Key;";
+            return GetSelectDistinctClause(ConfigSettings.Fact+"."+ConfigSettings.Id)+" , "+GetDimensionWithOrigin(ConfigSettings.Fact)+
+                   GetFromClause(ConfigSettings.FactDataTable)+ConfigSettings.Fact+" "+
+                   GetJoinClause(ConfigSettings.ParentChildTable)+ConfigSettings.Child+
+                   GetOncaluse(ConfigSettings.Child , ConfigSettings.Anchor);
         }
 
         public static string GetChildIdQuery(FactDimensions factDimension)
