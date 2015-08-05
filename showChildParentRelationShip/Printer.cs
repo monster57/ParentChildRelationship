@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ParentChildRelationship
 {
@@ -10,14 +8,13 @@ namespace ParentChildRelationship
         {
             foreach (var list in parentToChildrenMap)
             {
-                PrintFact(string.Join("==>" , list));
-               
+                PrintFact(string.Join("==>", list));
             }
         }
 
         private static void PrintFact(string relationString)
         {
-                Logger.Log("{0} " , relationString);
+            Logger.Log("{0} ", relationString);
         }
     }
 }
