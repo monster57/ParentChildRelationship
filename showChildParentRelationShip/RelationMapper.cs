@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ParentChildRelationship
 {
@@ -22,12 +18,13 @@ namespace ParentChildRelationship
             var usedKey = new List<string>();
             foreach (var keyValuePair in _mappingSet.Where(keyValuePair => !usedKey.Contains(keyValuePair.Key)))
             {
-                CreateRelationList( usedKey, new List<string>(), result, keyValuePair.Key);
+                CreateRelationList(usedKey, new List<string>(), result, keyValuePair.Key);
             }
             return result;
         }
 
-        private static void CreateRelationList( ICollection<string> usedKeys, ICollection<string> singleRelationshipHolder, ICollection<List<string>> result,  string key)
+        private static void CreateRelationList(ICollection<string> usedKeys,
+            ICollection<string> singleRelationshipHolder, ICollection<List<string>> result, string key)
         {
             IEnumerable<Fact> children;
             singleRelationshipHolder.Add(key);
@@ -44,7 +41,7 @@ namespace ParentChildRelationship
                     result.Add(new List<string>(singleRelationshipHolder));
                     return;
                 }
-                CreateRelationList(usedKeys ,singleRelationshipHolder , result , child.FactId);
+                CreateRelationList(usedKeys, singleRelationshipHolder, result, child.FactId);
                 singleRelationshipHolder.Remove(child.FactId);
             }
         }
