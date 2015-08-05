@@ -21,23 +21,23 @@ namespace ParentChildRelationshipTest.Test
 
         private static Dictionary<string, List<string>> _stringListDictionary;
         [Test]
-        public void ShouldGetADictionaryWhoseIdNodeTypeFromADictionaryWhoseKeyIsStringType()
+        public void ShouldGetAListOfNode()
         {
-            var expected = new Dictionary<Node , List<string>>();
-            var  list= new List<string>{"2" ,"3" };
-            expected.Add(new Node{NodeData = "1" } , list);
-
-            Assert.AreEqual(expected.Keys.First().NodeData, NodeDictionaryCreator.GetNodeListDictionary(_stringListDictionary).Keys.First().NodeData);
+            var expected = new List<Node> {new Node {NodeData = "1"}};
+            for (var i = 0; i < expected.Count; i++)
+            {
+                Assert.AreEqual(expected[i].NodeData, ParentNodeList.CreateNodeListFrom(_stringListDictionary)[i].NodeData);
+            }
         }
         
         [Test]
-        public void ShouldGetADictionatyOfNode()
+        public void AddNodeListToListElement()
         {
             var expected = new List<Node>();
             var list = new List<Node> {new Node {NodeData = "2"}, new Node {NodeData = "3"}};
             var node = new Node{NodeData = "1", NodeList = list};
             expected.Add(node);
-            var actual = NodeDictionaryCreator.GetNodeDictionary(NodeDictionaryCreator.GetNodeListDictionary(_stringListDictionary));
+            var actual = ParentNodeList.GetParentNodeList(ParentNodeList.CreateNodeListFrom(_stringListDictionary) , _stringListDictionary);
             for (var i = 0; i < expected.Count; i++)
             {
                 Assert.AreEqual(expected[i].NodeData, actual[i].NodeData);
@@ -47,6 +47,7 @@ namespace ParentChildRelationshipTest.Test
                 }
             }
         }
+
 
     }
 }
