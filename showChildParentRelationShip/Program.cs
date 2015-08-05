@@ -13,8 +13,9 @@ namespace ParentChildRelationship
 
         private static void Run()
         {
-            var relationMapper = new RelationMapper(new ParentChildUtil().GetParentToChildrenMap());
-            RunWithTimeCheck(() => { Printer.Print(relationMapper.GiveRelationList()); });
+            var ParentChildMap = new ParentChildUtil().GetParentToChildrenMap();
+            var relationMapper = new RelationMapper(ParentNodeList.GetParentNodeList(ParentNodeList.CreateNodeListFrom(ParentChildMap) , ParentChildMap));
+//            RunWithTimeCheck(() => { Printer.Print(); });
         }
 
         private static void RunWithTimeCheck(Action action)

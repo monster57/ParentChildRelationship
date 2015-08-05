@@ -1,48 +1,36 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace ParentChildRelationship
 {
     public class RelationMapper
     {
-        private static IDictionary<string, IEnumerable<Fact>> _mappingSet;
+        private static List<Node> _nodeList;
 
-        public RelationMapper(IDictionary<string, IEnumerable<Fact>> map)
+        public RelationMapper(List<Node> nodeList)
         {
-            _mappingSet = map;
+            _nodeList = nodeList;
         }
 
-        public List<List<string>> GiveRelationList()
+        public List<RelationshipTree> GetRelationTreeList()
         {
-            var result = new List<List<string>>();
-            var usedKey = new List<string>();
-            foreach (var keyValuePair in _mappingSet.Where(keyValuePair => !usedKey.Contains(keyValuePair.Key)))
+            var result = new List<RelationshipTree>();
+            var usedKey = new List<Node>();
+            foreach (var node in _nodeList)
             {
-                CreateRelationList(usedKey, new List<string>(), result, keyValuePair.Key);
+                if (!usedKey.Contains(node)) result.Add(new RelationshipTree {Root = node});
+                CreateNodeList(usedKey, node);
             }
             return result;
         }
 
-        private static void CreateRelationList(ICollection<string> usedKeys,
-            ICollection<string> singleRelationshipHolder, ICollection<List<string>> result, string key)
+        private static void CreateNodeList(ICollection<Node> usedKeys, Node node)
         {
-            IEnumerable<Fact> children;
-            singleRelationshipHolder.Add(key);
-            usedKeys.Add(key);
-            if (!_mappingSet.TryGetValue(key, out children))
+            usedKeys.Add(node);
+            if (node.NodeList == null) return;
+            foreach (var childNode in node.NodeList)
             {
-                result.Add(new List<string>(singleRelationshipHolder));
-                return;
-            }
-            foreach (var child in children)
-            {
-                if (singleRelationshipHolder.Contains(child.FactId))
-                {
-                    result.Add(new List<string>(singleRelationshipHolder));
-                    return;
-                }
-                CreateRelationList(usedKeys, singleRelationshipHolder, result, child.FactId);
-                singleRelationshipHolder.Remove(child.FactId);
+                if (usedKeys.Contains(childNode)) return;
+                CreateNodeList(usedKeys, childNode);
             }
         }
     }

@@ -1,39 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ParentChildRelationship
 {
     public static class ParentNodeList
     {
-        
-
-        public static List<Node> CreateNodeListFrom(Dictionary<string, List<string>> dictionary)
+        public static List<Node> CreateNodeListFrom(IDictionary<string, IEnumerable<Fact>> dictionary)
         {
             return dictionary.Select(keyValuePair => new Node {NodeData = keyValuePair.Key}).ToList();
         }
 
-        public static List<Node> GetParentNodeList(List<Node> list, Dictionary<string, List<string>> stringListDictionary)
+        public static List<Node> GetParentNodeList(List<Node> list,
+            IDictionary<string, IEnumerable<Fact>> stringListDictionary)
         {
-            
             foreach (var node in list)
             {
-                List<string> children;
+                IEnumerable<Fact> children;
                 stringListDictionary.TryGetValue(node.NodeData, out children);
-                var nodeList =  AddNodesToList(list, children);
+                var nodeList = AddNodesToList(list, children);
                 node.NodeList = nodeList;
             }
             return list;
         }
 
-        private static List<Node> AddNodesToList(List<Node> list, IEnumerable<string> children)
+        private static List<Node> AddNodesToList(List<Node> list, IEnumerable<Fact> children)
         {
             var nodeList = new List<Node>();
             foreach (var child in children)
             {
-                AddNode(list, child, nodeList);
+                AddNode(list, child.FactId, nodeList);
             }
             return nodeList;
         }

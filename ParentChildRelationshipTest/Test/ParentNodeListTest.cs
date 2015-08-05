@@ -1,51 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using NUnit.Framework;
 using ParentChildRelationship;
 
 namespace ParentChildRelationshipTest.Test
 {
     [TestFixture]
-    class ParentNodeListTest
+    internal class ParentNodeListTest
     {
         [SetUp]
         public void Init()
         {
-            _stringListDictionary = new Dictionary<string , List<string>>();
-            var list1 = new List<string> {"2", "3"};
-            var list2 = new List<string>{"1" , "5"};
-            _stringListDictionary.Add("1" , list1);
-            _stringListDictionary.Add("4", list2);
-
+            var dictionary = new Dictionary<string, IEnumerable<Fact>>();
+            var list1 = new List<Fact> { new Fact { FactId = "2" }, new Fact { FactId = "3" } };
+            var list2 = new List<Fact> { new Fact { FactId = "1" }, new Fact { FactId = "5" } };
+            dictionary.Add("1", list1 );
+            dictionary.Add("4", list2);
+            _stringListDictionary = dictionary;
             _expected = new List<Node>();
-            var nodeList1 = new List<Node> { new Node { NodeData = "2" }, new Node { NodeData = "3" } };
-            var nodeList2 = new List<Node> { new Node { NodeData = "1" }, new Node { NodeData = "5" } };
-            var node1 = new Node { NodeData = "1", NodeList = nodeList1 };
-            var node2 = new Node { NodeData = "4", NodeList = nodeList2 };
-            
+            var nodeList1 = new List<Node> {new Node {NodeData = "2"}, new Node {NodeData = "3"}};
+            var nodeList2 = new List<Node> {new Node {NodeData = "1"}, new Node {NodeData = "5"}};
+            var node1 = new Node {NodeData = "1", NodeList = nodeList1};
+            var node2 = new Node {NodeData = "4", NodeList = nodeList2};
             _expected.Add(node1);
         }
 
-        private static Dictionary<string, List<string>> _stringListDictionary;
+        private static IDictionary<string, IEnumerable<Fact>> _stringListDictionary;
         private static List<Node> _expected;
-        [Test]
-        public void ShouldGetAListOfNode()
-        {
-            var expected = new List<Node> {new Node {NodeData = "1"}};
-            for (var i = 0; i < expected.Count; i++)
-            {
-                Assert.AreEqual(expected[i].NodeData, ParentNodeList.CreateNodeListFrom(_stringListDictionary)[i].NodeData);
-            }
-        }
-        
+
         [Test]
         public void AddNodeListToEachListElement()
         {
-            
-            var actual = ParentNodeList.GetParentNodeList(ParentNodeList.CreateNodeListFrom(_stringListDictionary) , _stringListDictionary);
+            var actual = ParentNodeList.GetParentNodeList(ParentNodeList.CreateNodeListFrom(_stringListDictionary),
+                _stringListDictionary);
             for (var i = 0; i < _expected.Count; i++)
             {
                 Assert.AreEqual(_expected[i].NodeData, actual[i].NodeData);
@@ -55,6 +41,18 @@ namespace ParentChildRelationshipTest.Test
                 }
             }
         }
+
+        [Test]
+        public void ShouldGetAListOfNode()
+        {
+            var expected = new List<Node> {new Node {NodeData = "1"}};
+            for (var i = 0; i < expected.Count; i++)
+            {
+                Assert.AreEqual(expected[i].NodeData,
+                    ParentNodeList.CreateNodeListFrom(_stringListDictionary)[i].NodeData);
+            }
+        }
+
         [Test]
         public void ShouldNotCreateTwoDifferentNodeForSameString()
         {

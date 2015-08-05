@@ -74,6 +74,7 @@
     <Compile Include="QueryCreator.cs" />
     <Compile Include="Printer.cs" />
     <Compile Include="RelationMapper.cs" />
+    <Compile Include="RelationshipTree.cs" />
     <Compile Include="SqlConnectionWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
