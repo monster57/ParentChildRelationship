@@ -9,7 +9,7 @@ namespace ParentChildRelationship
         public static List<Anchor> GetParentSet(IDictionary<string, IEnumerable<Fact>> dictionary)
         {
        
-            var anchorSet = CreateAnchorSet(dictionary, CreateFactSet(dictionary)
+            var anchorSet = CreateAnchorSet(dictionary, GetAllFactIds(dictionary)
                 .Select(fact => new Anchor { Data = fact }).ToList());
             return CreateParentList(anchorSet);
         }
@@ -44,26 +44,24 @@ namespace ParentChildRelationship
         private static List<Anchor> CreateAnchorSet(IDictionary<string, IEnumerable<Fact>> dictionary,
             List<Anchor> anchorList)
         {
-            var parentSet = new List<Anchor>();
             foreach (var keyValPair in dictionary)
             {
                 var children = (from fact in keyValPair.Value from anchor in anchorList
                         where anchor.Data == fact.FactId select anchor).ToList();
-                AddAnchorToSet(anchorList, keyValPair, children, parentSet);
+                AddAnchorToSet(anchorList, keyValPair, children);
             }
-            return parentSet;
+            return anchorList;
         }
 
-        private static void AddAnchorToSet(IEnumerable<Anchor> anchorList, KeyValuePair<string, IEnumerable<Fact>> pair, List<Anchor> children, List<Anchor> parentSet)
+        private static void AddAnchorToSet(IEnumerable<Anchor> anchorList, KeyValuePair<string, IEnumerable<Fact>> pair, List<Anchor> children)
         {
             foreach (var anchor in anchorList.Where(anchor => anchor.Data == pair.Key))
             {
                 anchor.Children = children;
-                parentSet.Add(anchor);
             }
         }
 
-        private static HashSet<string> CreateFactSet(IDictionary<string, IEnumerable<Fact>> dictionary)
+        private static HashSet<string> GetAllFactIds(IDictionary<string, IEnumerable<Fact>> dictionary)
         {
             var factList = new HashSet<string>();
             foreach (var keyValuePair in dictionary)
