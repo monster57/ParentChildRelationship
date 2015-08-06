@@ -56,7 +56,7 @@
     <Compile Include="Test\ExtensionsTest.cs" />
     <Compile Include="Test\FactDimensionTest.cs" />
     <Compile Include="Test\FactTest.cs" />
-    <Compile Include="Test\ParentNodeListTest.cs" />
+    <Compile Include="Test\ParentListTest.cs" />
     <Compile Include="Test\QueryCreatorTest.cs" />
   </ItemGroup>
   <ItemGroup>

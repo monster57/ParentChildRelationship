@@ -21,19 +21,23 @@ namespace ParentChildRelationship
             foreach (var anchor in anchorList)
             {
                 if (!usedKey.Contains(anchor)) result.Add(anchor);
-                CheckForNonParent(usedKey, anchor);
+                CheckForNonParent(usedKey, anchor, result);
             }
             return result;
         }
 
-        private static void CheckForNonParent(ICollection<Anchor> usedKeys, Anchor anchor)
+        private static void CheckForNonParent(ICollection<Anchor> usedKeys, Anchor anchor, List<Anchor> result)
         {
             usedKeys.Add(anchor);
             if (anchor.Children == null) return;
             foreach (var childNode in anchor.Children)
             {
-                if (usedKeys.Contains(childNode)) return;
-                CheckForNonParent(usedKeys, childNode);
+                if (usedKeys.Contains(childNode))
+                {
+                    result.Remove(childNode);
+                    return;
+                }
+                CheckForNonParent(usedKeys, childNode , result);
             }
         }
 
