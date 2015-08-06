@@ -63,6 +63,7 @@
     <Compile Include="ConnectionPool.cs" />
     <Compile Include="DatabaseUtils.cs" />
     <Compile Include="DataContainer.cs" />
+    <Compile Include="DisplayFigure.cs" />
     <Compile Include="FactDimensions.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Fact.cs" />

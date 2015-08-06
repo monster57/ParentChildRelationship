@@ -15,7 +15,8 @@ namespace ParentChildRelationship
         {
             var parentChildMap = new ParentChildUtil().GetParentToChildrenMap();
             var parentList = ParentList.GetParentSet(parentChildMap);
-//            RunWithTimeCheck(() => { Printer.Print(); });
+            var displayList = DisplayFigure.GetParentChildRepresentation(parentList);
+            RunWithTimeCheck(() => { Printer.Print(displayList); });
         }
 
         private static void RunWithTimeCheck(Action action)
