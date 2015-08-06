@@ -5,16 +5,42 @@ namespace ParentChildRelationship
 {
     public static class ParentList
     {
-        public static HashSet<Anchor> GetAnchorList(IDictionary<string, IEnumerable<Fact>> dictionary)
+
+        public static List<Anchor> GetParentSet(IDictionary<string, IEnumerable<Fact>> dictionary)
         {
-            return CreateAnchorList(dictionary, CreateFactSet(dictionary)
-                .Select(fact => new Anchor {Data = fact}).ToList());
+       
+            var anchorSet = CreateAnchorSet(dictionary, CreateFactSet(dictionary)
+                .Select(fact => new Anchor { Data = fact }).ToList());
+            return CreateParentList(anchorSet);
         }
 
-        private static HashSet<Anchor> CreateAnchorList(IDictionary<string, IEnumerable<Fact>> dictionary,
+        private static List<Anchor> CreateParentList(IEnumerable<Anchor> anchorList)
+        {
+            var result = new List<Anchor>();
+            var usedKey = new List<Anchor>();
+            foreach (var anchor in anchorList)
+            {
+                if (!usedKey.Contains(anchor)) result.Add(anchor);
+                CheckForNonParent(usedKey, anchor);
+            }
+            return result;
+        }
+
+        private static void CheckForNonParent(ICollection<Anchor> usedKeys, Anchor anchor)
+        {
+            usedKeys.Add(anchor);
+            if (anchor.Children == null) return;
+            foreach (var childNode in anchor.Children)
+            {
+                if (usedKeys.Contains(childNode)) return;
+                CheckForNonParent(usedKeys, childNode);
+            }
+        }
+
+        private static List<Anchor> CreateAnchorSet(IDictionary<string, IEnumerable<Fact>> dictionary,
             List<Anchor> anchorList)
         {
-            var parentSet = new HashSet<Anchor>();
+            var parentSet = new List<Anchor>();
             foreach (var keyValPair in dictionary)
             {
                 var children = (from fact in keyValPair.Value from anchor in anchorList
@@ -24,7 +50,7 @@ namespace ParentChildRelationship
             return parentSet;
         }
 
-        private static void AddAnchorToSet(IEnumerable<Anchor> anchorList, KeyValuePair<string, IEnumerable<Fact>> pair, List<Anchor> children, ISet<Anchor> parentSet)
+        private static void AddAnchorToSet(IEnumerable<Anchor> anchorList, KeyValuePair<string, IEnumerable<Fact>> pair, List<Anchor> children, List<Anchor> parentSet)
         {
             foreach (var anchor in anchorList.Where(anchor => anchor.Data == pair.Key))
             {

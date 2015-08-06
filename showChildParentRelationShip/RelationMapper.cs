@@ -4,9 +4,9 @@ namespace ParentChildRelationship
 {
     public class RelationMapper
     {
-        private static HashSet<Anchor> _nodeList;
+        private static List<Anchor> _nodeList;
 
-        public RelationMapper(HashSet<Anchor> nodeList)
+        public RelationMapper(List<Anchor> nodeList)
         {
             _nodeList = nodeList;
         }

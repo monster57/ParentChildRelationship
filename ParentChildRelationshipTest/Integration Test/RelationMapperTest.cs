@@ -30,7 +30,7 @@ namespace ParentChildRelationshipTest.Integration_Test
             map.Add("1", listFacts1);
             map.Add("2" , listFacts2);
             map.Add("3" , listFacts3);
-            _list = ParentNodeList.GetParentNodeList(ParentNodeList.CreateNodeListFrom(map), map);
+            _list = ParentList.GetParentSet(map);
 
         }
 
