@@ -34,18 +34,18 @@ namespace ParentChildRelationshipTest.Integration_Test
 
         }
 
-        private  static List<Node> _list;
+        private  static List<Anchor> _list;
 
         [Test]
         public void ShouldGetAListOfAllRelationshipTree()
         {
-            var expected = new List<RelationshipTree> {new RelationshipTree {Root = new Node {NodeData = "1"}}};
+            var expected = new List<RelationshipTree> {new RelationshipTree {Root = new Anchor {Data = "1"}}};
 
 
             var relationMapper = new RelationMapper(_list);
             for (var i = 0; i < expected.Count; i++)
             {
-                Assert.AreEqual(expected[i].Root.NodeData, relationMapper.GetRelationTreeList()[i].Root.NodeData);
+                Assert.AreEqual(expected[i].Root.Data, relationMapper.GetRelationTreeList()[i].Root.Data);
             }
         }
     }

@@ -2,6 +2,6 @@
 {
     public class RelationshipTree
     {
-        public Node Root { get; set; }
+        public Anchor Root { get; set; }
     }
 }

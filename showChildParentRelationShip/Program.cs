@@ -13,8 +13,8 @@ namespace ParentChildRelationship
 
         private static void Run()
         {
-            var ParentChildMap = new ParentChildUtil().GetParentToChildrenMap();
-            var relationMapper = new RelationMapper(ParentNodeList.GetParentNodeList(ParentNodeList.CreateNodeListFrom(ParentChildMap) , ParentChildMap));
+            var parentChildMap = new ParentChildUtil().GetParentToChildrenMap();
+            var relationMapper = new RelationMapper(ParentNodeList.GetParentNodeList(ParentNodeList.CreateNodeListFrom(parentChildMap) , parentChildMap));
 //            RunWithTimeCheck(() => { Printer.Print(); });
         }
 

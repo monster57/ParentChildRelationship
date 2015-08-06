@@ -67,7 +67,7 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="Fact.cs" />
     <Compile Include="Logger.cs" />
-    <Compile Include="Node.cs" />
+    <Compile Include="Anchor.cs" />
     <Compile Include="ParentNodeList.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

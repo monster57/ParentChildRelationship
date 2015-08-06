@@ -4,9 +4,9 @@ namespace ParentChildRelationship
 {
     public class RelationMapper
     {
-        private static List<Node> _nodeList;
+        private static HashSet<Anchor> _nodeList;
 
-        public RelationMapper(List<Node> nodeList)
+        public RelationMapper(HashSet<Anchor> nodeList)
         {
             _nodeList = nodeList;
         }
@@ -14,7 +14,7 @@ namespace ParentChildRelationship
         public List<RelationshipTree> GetRelationTreeList()
         {
             var result = new List<RelationshipTree>();
-            var usedKey = new List<Node>();
+            var usedKey = new List<Anchor>();
             foreach (var node in _nodeList)
             {
                 if (!usedKey.Contains(node)) result.Add(new RelationshipTree {Root = node});
@@ -23,11 +23,11 @@ namespace ParentChildRelationship
             return result;
         }
 
-        private static void CreateNodeList(ICollection<Node> usedKeys, Node node)
+        private static void CreateNodeList(ICollection<Anchor> usedKeys, Anchor anchor)
         {
-            usedKeys.Add(node);
-            if (node.NodeList == null) return;
-            foreach (var childNode in node.NodeList)
+            usedKeys.Add(anchor);
+            if (anchor.Children == null) return;
+            foreach (var childNode in anchor.Children)
             {
                 if (usedKeys.Contains(childNode)) return;
                 CreateNodeList(usedKeys, childNode);

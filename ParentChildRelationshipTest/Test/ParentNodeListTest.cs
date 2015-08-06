@@ -11,21 +11,21 @@ namespace ParentChildRelationshipTest.Test
         public void Init()
         {
             var dictionary = new Dictionary<string, IEnumerable<Fact>>();
-            var list1 = new List<Fact> { new Fact { FactId = "2" }, new Fact { FactId = "3" } };
-            var list2 = new List<Fact> { new Fact { FactId = "1" }, new Fact { FactId = "5" } };
-            dictionary.Add("1", list1 );
+            var list1 = new List<Fact> {new Fact {FactId = "2"}, new Fact {FactId = "3"}};
+            var list2 = new List<Fact> {new Fact {FactId = "1"}, new Fact {FactId = "5"}};
+            dictionary.Add("1", list1);
             dictionary.Add("4", list2);
             _stringListDictionary = dictionary;
-            _expected = new List<Node>();
-            var nodeList1 = new List<Node> {new Node {NodeData = "2"}, new Node {NodeData = "3"}};
-            var nodeList2 = new List<Node> {new Node {NodeData = "1"}, new Node {NodeData = "5"}};
-            var node1 = new Node {NodeData = "1", NodeList = nodeList1};
-            var node2 = new Node {NodeData = "4", NodeList = nodeList2};
+            _expected = new List<Anchor>();
+            var nodeList1 = new List<Anchor> {new Anchor {Data = "2"}, new Anchor {Data = "3"}};
+            var nodeList2 = new List<Anchor> {new Anchor {Data = "1"}, new Anchor {Data = "5"}};
+            var node1 = new Anchor {Data = "1", Children = nodeList1};
+            var node2 = new Anchor {Data = "4", Children = nodeList2};
             _expected.Add(node1);
         }
 
         private static IDictionary<string, IEnumerable<Fact>> _stringListDictionary;
-        private static List<Node> _expected;
+        private static List<Anchor> _expected;
 
         [Test]
         public void AddNodeListToEachListElement()
@@ -34,10 +34,10 @@ namespace ParentChildRelationshipTest.Test
                 _stringListDictionary);
             for (var i = 0; i < _expected.Count; i++)
             {
-                Assert.AreEqual(_expected[i].NodeData, actual[i].NodeData);
-                for (var j = 0; j < _expected[i].NodeList.Count; j++)
+                Assert.AreEqual(_expected[i].Data, actual[i].Data);
+                for (var j = 0; j < _expected[i].Children.Count; j++)
                 {
-                    Assert.AreEqual(_expected[i].NodeList[j].NodeData, actual[i].NodeList[j].NodeData);
+                    Assert.AreEqual(_expected[i].Children[j].Data, actual[i].Children[j].Data);
                 }
             }
         }
@@ -45,11 +45,11 @@ namespace ParentChildRelationshipTest.Test
         [Test]
         public void ShouldGetAListOfNode()
         {
-            var expected = new List<Node> {new Node {NodeData = "1"}};
+            var expected = new List<Anchor> {new Anchor {Data = "1"}};
             for (var i = 0; i < expected.Count; i++)
             {
-                Assert.AreEqual(expected[i].NodeData,
-                    ParentNodeList.CreateNodeListFrom(_stringListDictionary)[i].NodeData);
+                Assert.AreEqual(expected[i].Data,
+                    ParentNodeList.CreateNodeListFrom(_stringListDictionary)[i].Data);
             }
         }
 
@@ -59,7 +59,7 @@ namespace ParentChildRelationshipTest.Test
             var actual = ParentNodeList.GetParentNodeList(ParentNodeList.CreateNodeListFrom(_stringListDictionary),
                 _stringListDictionary);
             var node = actual[0];
-            var nodeList = actual[1].NodeList;
+            var nodeList = actual[1].Children;
             Assert.True(nodeList.Contains(node));
         }
     }
