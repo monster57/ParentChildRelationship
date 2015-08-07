@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="ConfigSettings.cs" />
     <Compile Include="ConnectionPool.cs" />
+    <Compile Include="Convention.cs" />
     <Compile Include="DatabaseUtils.cs" />
     <Compile Include="DataContainer.cs" />
     <Compile Include="DisplayFigure.cs" />

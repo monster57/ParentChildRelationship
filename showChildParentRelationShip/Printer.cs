@@ -8,7 +8,6 @@ namespace ParentChildRelationship
         {
             foreach (var list in parentToChildrenMap)
             {
-//                PrintFact(string.Join("==>", list));
                 PrintFact(list);
             }   
         }

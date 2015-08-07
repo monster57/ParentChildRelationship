@@ -2,18 +2,19 @@ namespace ParentChildRelationship
 {
     public static class QueryCreator
     {
+
         private static string GetSelectDistinctClause(string id)
         {
-            return "select distinct " + id+" ";
+            return ConfigSettings.Select +ConfigSettings.Distinct+ id+" ";
         }
 
         private static string GetFromClause(string datatable)
         {
-            return "from " + ConfigSettings.Schema + "." + datatable+" ";
+            return ConfigSettings.From + ConfigSettings.Schema + "." + datatable+" ";
         }
         private static string GetJoinClause(string dataTable)
         {
-            return " join " + ConfigSettings.Schema + "." + dataTable + " ";
+            return ConfigSettings.Join + ConfigSettings.Schema + "." + dataTable + " ";
         }
         private static string GetDimensionWithOrigin(string category)
         {
@@ -27,36 +28,36 @@ namespace ParentChildRelationship
 
         private static string GetOncaluse(string dependentTable , string category , string prefix)
         {
-            return " on " + dependentTable + "." + ConfigSettings.WhatKey + " = " + category + "." + prefix +
+            return ConfigSettings.On + dependentTable + "." + ConfigSettings.WhatKey + " = " + category + "." + prefix +
                    ConfigSettings.WhatKey +
-                   " and " + dependentTable + "." + ConfigSettings.How3Key + " = " + category + "." +
+                   ConfigSettings.And + dependentTable + "." + ConfigSettings.How3Key + " = " + category + "." +
                    prefix + ConfigSettings.How3Key +
-                   " and " + dependentTable + "." + ConfigSettings.When3Key + " = " + category + "." +
+                   ConfigSettings.And + dependentTable + "." + ConfigSettings.When3Key + " = " + category + "." +
                    ConfigSettings.When3Key +
-                   " and " + dependentTable + "." + ConfigSettings.Where4Key + " = " + category + "." +
+                   ConfigSettings.And + dependentTable + "." + ConfigSettings.Where4Key + " = " + category + "." +
                    prefix + ConfigSettings.Where4Key + ";";
         }
 
         private static string GetOnClauseOnValue(string depentdentTable , string prefix , FactDimensions fact)
         {
-            return " on " + depentdentTable + "." + prefix + ConfigSettings.WhatKey + " = " + fact.Whatkey +
-                   " and " + depentdentTable + "." + prefix + ConfigSettings.How3Key + "  = " + fact.Howkey +
-                   " and " + depentdentTable + "." + ConfigSettings.When3Key + " = " + fact.Whenkey +
-                   " and " + depentdentTable + "." + prefix + ConfigSettings.Where4Key + " = " + fact.Wherekey;
+            return ConfigSettings.On + depentdentTable + "." + prefix + ConfigSettings.WhatKey + " = " + fact.Whatkey +
+                   ConfigSettings.And + depentdentTable + "." + prefix + ConfigSettings.How3Key + "  = " + fact.Howkey +
+                   ConfigSettings.And + depentdentTable + "." + ConfigSettings.When3Key + " = " + fact.Whenkey +
+                   ConfigSettings.And + depentdentTable + "." + prefix + ConfigSettings.Where4Key + " = " + fact.Wherekey;
         }
 
         private static string GetConditionForStar(string dependentTable , string category  , string prefix)
         {
-            return " and ( " + dependentTable + "." + ConfigSettings.WhatKey + " = " + category + "." + prefix +
+            return ConfigSettings.And + "( " + dependentTable + "." + ConfigSettings.WhatKey + " = " + category + "." + prefix +
                    ConfigSettings.WhatKey +
-                   " or " + category + "." + prefix + ConfigSettings.WhatKey + " = '*') " +
-                   "and ( " + dependentTable + "." + ConfigSettings.Where4Key + " = " + category + "." + prefix +
+                   ConfigSettings.Or + category + "." + prefix + ConfigSettings.WhatKey + " = '*')" +
+                   ConfigSettings.And + "( " + dependentTable + "." + ConfigSettings.Where4Key + " = " + category + "." + prefix +
                    ConfigSettings.Where4Key +
-                   " or " + category + "." + prefix + ConfigSettings.Where4Key + " = '*') " +
-                   "and ( " + dependentTable + "." + ConfigSettings.How3Key + " = " + category + "." + prefix +
+                   ConfigSettings.Or + category + "." + prefix + ConfigSettings.Where4Key + " = '*')" +
+                   ConfigSettings.And +"( " + dependentTable + "." + ConfigSettings.How3Key + " = " + category + "." + prefix +
                    ConfigSettings.How3Key +
-                   " or " + category + "." + prefix + ConfigSettings.How3Key + " = '*') " +
-                   "and "+dependentTable+ "."+ ConfigSettings.When3Key+" = "+category + "."+ConfigSettings.When3Key +";";
+                   ConfigSettings.Or + category + "." + prefix + ConfigSettings.How3Key + " = '*')" +
+                   ConfigSettings.And + dependentTable + "." + ConfigSettings.When3Key + " = " + category + "." + ConfigSettings.When3Key + ";";
         }
         
         public static string GetParentIdQuery()

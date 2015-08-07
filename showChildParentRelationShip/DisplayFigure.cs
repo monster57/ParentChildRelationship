@@ -12,7 +12,7 @@ namespace ParentChildRelationship
             {
                 var treeBuilder = new StringBuilder();
                 CreateAnchorChildTree(anchor, new List<string>(), treeBuilder);
-                if (treeBuilder.ToString().Length > 4) display.Add(treeBuilder.ToString());
+                if (treeBuilder.ToString().Length > ConfigSettings.MinimumAcceptedLength) display.Add(treeBuilder.ToString());
             }
             return display;
         }
@@ -20,7 +20,7 @@ namespace ParentChildRelationship
         private static void CreateAnchorChildTree(Anchor anchor, ICollection<string> rowList, StringBuilder tree)
         {
             rowList.Add(anchor.Data);
-            tree.Append(anchor.Data.PadRight(3, ' '));
+            tree.Append(anchor.Data.PadRight(ConfigSettings.KeySize, ' '));
             if (anchor.Children == null)
             {
                 AddLine(rowList, tree);
@@ -29,7 +29,7 @@ namespace ParentChildRelationship
             foreach (var child in anchor.Children)
             {
                 if (rowList.Contains(child.Data)) return;
-                tree.Append(" " + (char) 26 + " ");
+                tree.Append(" " + ConfigSettings.Arrow+ " ");
                 CreateAnchorChildTree(child, rowList, tree);
                 rowList.Remove(child.Data);
             }

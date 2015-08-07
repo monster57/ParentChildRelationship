@@ -74,5 +74,45 @@ namespace ParentChildRelationship
         {
             get { return ConfigurationManager.AppSettings["parentChildTable"]; }
         }
+        public static string And
+        {
+            get { return ConfigurationManager.AppSettings["and"]; }
+        }
+        public static string Or
+        {
+            get { return ConfigurationManager.AppSettings["or"]; }
+        }
+        public static string On
+        {
+            get { return ConfigurationManager.AppSettings["on"]; }
+        }
+        public static string Join
+        {
+            get { return ConfigurationManager.AppSettings["join"]; }
+        }
+        public static string Select
+        {
+            get { return ConfigurationManager.AppSettings["select"]; }
+        }
+        public static string From
+        {
+            get { return ConfigurationManager.AppSettings["from"]; }
+        }
+        public static string Distinct
+        {
+            get { return ConfigurationManager.AppSettings["distinct"]; }
+        }
+        public static int MinimumAcceptedLength
+        {
+            get { return Convert.ToInt32(ConfigurationManager.AppSettings["minimumAcceptedLength"]); }
+        }
+        public static int KeySize
+        {
+            get { return Convert.ToInt32(ConfigurationManager.AppSettings["keySize"]); }
+        }
+        public static char Arrow
+        {
+            get { return (char) Convert.ToInt32(ConfigurationManager.AppSettings["arrow"]); }
+        }
     }
 }
