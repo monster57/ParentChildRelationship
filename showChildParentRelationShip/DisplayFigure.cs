@@ -8,7 +8,6 @@ namespace ParentChildRelationship
         public static List<string> GetParentChildRepresentation(List<Anchor> parentList)
         {
             var display = new List<string>();
-
             foreach (var anchor in parentList)
             {
                 var stringBuilder = new StringBuilder();
@@ -21,7 +20,7 @@ namespace ParentChildRelationship
         private static void AddDataToList(Anchor anchor, ICollection<string> rowList, StringBuilder tree)
         {
             rowList.Add(anchor.Data);
-            AddElement(anchor, tree);
+            tree.Append(anchor.Data.PadRight(3, ' '));
             if (anchor.Children == null)
             {
                 AddLine(rowList, tree);
@@ -29,10 +28,7 @@ namespace ParentChildRelationship
             }
             foreach (var child in anchor.Children)
             {
-                if (rowList.Contains(child.Data))
-                {
-                    return;
-                }
+                if (rowList.Contains(child.Data)) return;
                 tree.Append(" " + (char) 26 + " ");
                 AddDataToList(child, rowList, tree);
                 rowList.Remove(child.Data);
@@ -46,22 +42,6 @@ namespace ParentChildRelationship
             {
                 tree.Append("   ");
                 if (i > 0) tree.Append("   ");
-            }
-        }
-
-        private static void AddElement(Anchor anchor, StringBuilder tree)
-        {
-            switch (anchor.Data.Length)
-            {
-                case 3:
-                    tree.Append(anchor.Data);
-                    break;
-                case 2:
-                    tree.Append(anchor.Data + " ");
-                    break;
-                default:
-                    tree.Append(anchor.Data + "  ");
-                    break;
             }
         }
     }
