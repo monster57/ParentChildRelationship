@@ -10,14 +10,14 @@ namespace ParentChildRelationship
             var display = new List<string>();
             foreach (var anchor in parentList)
             {
-                var stringBuilder = new StringBuilder();
-                AddDataToList(anchor, new List<string>(), stringBuilder);
-                if (stringBuilder.ToString().Length > 4) display.Add(stringBuilder.ToString());
+                var treeBuilder = new StringBuilder();
+                CreateAnchorChildTree(anchor, new List<string>(), treeBuilder);
+                if (treeBuilder.ToString().Length > 4) display.Add(treeBuilder.ToString());
             }
             return display;
         }
 
-        private static void AddDataToList(Anchor anchor, ICollection<string> rowList, StringBuilder tree)
+        private static void CreateAnchorChildTree(Anchor anchor, ICollection<string> rowList, StringBuilder tree)
         {
             rowList.Add(anchor.Data);
             tree.Append(anchor.Data.PadRight(3, ' '));
@@ -30,7 +30,7 @@ namespace ParentChildRelationship
             {
                 if (rowList.Contains(child.Data)) return;
                 tree.Append(" " + (char) 26 + " ");
-                AddDataToList(child, rowList, tree);
+                CreateAnchorChildTree(child, rowList, tree);
                 rowList.Remove(child.Data);
             }
         }

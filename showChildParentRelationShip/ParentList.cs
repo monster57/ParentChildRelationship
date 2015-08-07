@@ -5,12 +5,10 @@ namespace ParentChildRelationship
 {
     public static class ParentList
     {
-
-        public static List<Anchor> GetParentSet(IDictionary<string, IEnumerable<Fact>> dictionary)
+        public static List<Anchor> GetParentSet(IDictionary<string, IEnumerable<Fact>> parentChildDictionary)
         {
-       
-            var anchorSet = CreateAnchorSet(dictionary, GetAllFactIds(dictionary)
-                .Select(fact => new Anchor { Data = fact }).ToList());
+            var anchorSet = CreateAnchorSet(parentChildDictionary, GetAllFactIds(parentChildDictionary)
+                .Select(fact => new Anchor {Data = fact}).ToList());
             return CreateParentList(anchorSet);
         }
 
@@ -38,23 +36,26 @@ namespace ParentChildRelationship
                     result.Remove(childNode);
                     return;
                 }
-                CheckForNonParent(usedKeys, childNode , result);
+                CheckForNonParent(usedKeys, childNode, result);
             }
         }
 
-        private static List<Anchor> CreateAnchorSet(IDictionary<string, IEnumerable<Fact>> dictionary,
+        private static IEnumerable<Anchor> CreateAnchorSet(IDictionary<string, IEnumerable<Fact>> dictionary,
             List<Anchor> anchorList)
         {
             foreach (var keyValPair in dictionary)
             {
-                var children = (from fact in keyValPair.Value from anchor in anchorList
-                        where anchor.Data == fact.FactId select anchor).ToList();
+                var children = (from fact in keyValPair.Value
+                    from anchor in anchorList
+                    where anchor.Data == fact.FactId
+                    select anchor).ToList();
                 AddAnchorToSet(anchorList, keyValPair, children);
             }
             return anchorList;
         }
 
-        private static void AddAnchorToSet(IEnumerable<Anchor> anchorList, KeyValuePair<string, IEnumerable<Fact>> pair, List<Anchor> children)
+        private static void AddAnchorToSet(IEnumerable<Anchor> anchorList, KeyValuePair<string, IEnumerable<Fact>> pair,
+            List<Anchor> children)
         {
             foreach (var anchor in anchorList.Where(anchor => anchor.Data == pair.Key))
             {
@@ -62,10 +63,10 @@ namespace ParentChildRelationship
             }
         }
 
-        private static HashSet<string> GetAllFactIds(IDictionary<string, IEnumerable<Fact>> dictionary)
+        private static IEnumerable<string> GetAllFactIds(IDictionary<string, IEnumerable<Fact>> parentChildDictionary)
         {
             var factList = new HashSet<string>();
-            foreach (var keyValuePair in dictionary)
+            foreach (var keyValuePair in parentChildDictionary)
             {
                 factList.Add(keyValuePair.Key);
                 foreach (var fact in keyValuePair.Value)
