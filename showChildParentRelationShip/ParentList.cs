@@ -22,10 +22,7 @@ namespace ParentChildRelationship
             {
                 if (!usedKey.Contains(anchor)) result.Add(anchor);
                 CheckForNonParent(usedKey, anchor, result);
-                if (anchor.Children == null)
-                {
-                    result.Remove(anchor);
-                }
+                if (anchor.Children == null) result.Remove(anchor);
             }
             return result;
         }

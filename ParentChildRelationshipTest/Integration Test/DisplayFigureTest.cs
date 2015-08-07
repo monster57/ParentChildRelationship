@@ -20,25 +20,22 @@ namespace ParentChildRelationshipTest.Integration_Test
             var parentList = ParentList.GetParentSet(dictionary);
             _parentList = parentList;
 
-            var expected = new List<List<string>>();
-            var list1 = new List<string>{"5","4"};
-            var list2 = new List<string>{"5","1","2"};
-            var list3 = new List<string>{"5","1","3"};
-            expected.Add(list1);
-            expected.Add(list2);
-            expected.Add(list3);
+            var expected = new List<string>();
+            var tree = "5   " + (char)26 + " 4  \n    "+(char)26 +" 1   " + (char)26 + " 2  \n          "+(char)26 + " 3  \n         ";
+            
+            expected.Add(tree);
             _expected = expected;
         }
 
         private static List<Anchor> _parentList;
-        private static List<List<string>> _expected;
+        private static List<string> _expected;
         [Test]
-        public void ShouldGetAListOfAllParentToTheLastChild()
+        public void ShouldGetATreeOfAllParentToTheLastChild()
         {
             var list = DisplayFigure.GetParentChildRepresentation(_parentList);
             for (var i = 0; i <_expected.Count ; i++)
             {
-                Assert.AreEqual(list[i] , _expected[i]);
+                Assert.AreEqual(_expected[i], list[i]);
             }
 
         }
