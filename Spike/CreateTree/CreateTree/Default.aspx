@@ -1,39 +1,29 @@
-﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="CreateTree._Default" %>
+﻿<%--<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="CreateTree._Default" %>--%>
 
-<asp:Content runat="server" ID="FeaturedContent" ContentPlaceHolderID="FeaturedContent">
-    <section class="featured">
-        <div class="content-wrapper">
-            <hgroup class="title">
-                <h1><%: Title %>.</h1>
-                <h2>Modify this template to jump-start your ASP.NET application.</h2>
-            </hgroup>
-            <p>
-                To learn more about ASP.NET, visit <a href="http://asp.net" title="ASP.NET Website">http://asp.net</a>.
-                The page features <mark>videos, tutorials, and samples</mark> to help you get the most from ASP.NET.
-                If you have any questions about ASP.NET visit
-                <a href="http://forums.asp.net/18.aspx" title="ASP.NET Forum">our forums</a>.
-            </p>
-        </div>
-    </section>
-</asp:Content>
-<asp:Content runat="server" ID="BodyContent" ContentPlaceHolderID="MainContent">
-    <h3>We suggest the following:</h3>
-    <ol class="round">
-        <li class="one">
-            <h5>Getting Started</h5>
-            ASP.NET Web Forms lets you build dynamic websites using a familiar drag-and-drop, event-driven model.
-            A design surface and hundreds of controls and components let you rapidly build sophisticated, powerful UI-driven sites with data access.
-            <a href="http://go.microsoft.com/fwlink/?LinkId=245146">Learn more…</a>
-        </li>
-        <li class="two">
-            <h5>Add NuGet packages and jump-start your coding</h5>
-            NuGet makes it easy to install and update free libraries and tools.
-            <a href="http://go.microsoft.com/fwlink/?LinkId=245147">Learn more…</a>
-        </li>
-        <li class="three">
-            <h5>Find Web Hosting</h5>
-            You can easily find a web hosting company that offers the right mix of features and price for your applications.
-            <a href="http://go.microsoft.com/fwlink/?LinkId=245143">Learn more…</a>
-        </li>
-    </ol>
-</asp:Content>
+<%--<asp:Content runat="server" ID="BodyContent" ContentPlaceHolderID="MainContent">--%>
+<%--     <h1><%: Title %>.</h1>--%>
+<%--        <h2>Wingtip Toys can help you find the perfect gift.</h2>--%>
+<%--        <p class="lead">We're all about transportation toys. You can order --%>
+<%--                any of our toys today. Each toy listing has detailed --%>
+<%--                information to help you choose the right toy.</p>   --%>
+<%--</asp:Content>--%>
+
+
+<html>
+<body>
+
+<h1>My first SVG</h1>
+
+<svg >
+  <circle cx="40" cy="40" r="10" stroke="black" stroke-width="4" fill="blue" />
+  <line x1="50" y1="50" x2="120" y2="120" style="stroke:rgb(255,0,0);stroke-width:2" />
+  <circle cx="130" cy="130" r="10" stroke="black" stroke-width="4" fill="blue" />
+  <line x1="140" y1="120" x2="200" y2="30" style="stroke:rgb(255,0,0);stroke-width:2" />
+  <circle cx="210" cy="20" r="10" stroke="black" stroke-width="4" fill="blue" />
+  <line x1="220" y1="30" x2="250" y2="115" style="stroke:rgb(255,0,0);stroke-width:2" />
+  <circle cx="250" cy="130" r="10" stroke="black" stroke-width="4" fill="blue" />
+
+</svg>
+
+</body>
+</html>

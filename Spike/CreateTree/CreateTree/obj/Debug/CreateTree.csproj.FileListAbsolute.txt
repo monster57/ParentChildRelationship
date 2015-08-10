@@ -32,6 +32,6 @@ D:\PracticeVisualStudio\showChildParentRelationShip\Spike\CreateTree\CreateTree\
 D:\PracticeVisualStudio\showChildParentRelationShip\Spike\CreateTree\CreateTree\bin\DotNetOpenAuth.AspNet.xml
 D:\PracticeVisualStudio\showChildParentRelationShip\Spike\CreateTree\CreateTree\bin\Microsoft.AspNet.Membership.OpenAuth.xml
 D:\PracticeVisualStudio\showChildParentRelationShip\Spike\CreateTree\CreateTree\bin\Microsoft.AspNet.FriendlyUrls.xml
-D:\PracticeVisualStudio\showChildParentRelationShip\Spike\CreateTree\CreateTree\obj\Debug\CreateTree.csprojResolveAssemblyReference.cache
 D:\PracticeVisualStudio\showChildParentRelationShip\Spike\CreateTree\CreateTree\obj\Debug\CreateTree.dll
 D:\PracticeVisualStudio\showChildParentRelationShip\Spike\CreateTree\CreateTree\obj\Debug\CreateTree.pdb
+D:\PracticeVisualStudio\showChildParentRelationShip\Spike\CreateTree\CreateTree\obj\Debug\CreateTree.csprojResolveAssemblyReference.cache
