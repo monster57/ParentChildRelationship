@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Web.UI.WebControls;
-using Svg;
+using System.IO;
 
 namespace ParentChildRelationship
 {
@@ -19,10 +18,15 @@ namespace ParentChildRelationship
             var parentList = ParentList.GetParentSet(parentChildMap);
             var displayList = DisplayFigure.GetParentChildRepresentation(parentList);
             var jsonParser = new JsonParser(parentList);
+            File.WriteAllText(
+                @"D:\PracticeVisualStudio\showChildParentRelationShip\showChildParentRelationShip\Data\ParentFact.json",
+                jsonParser.GetParentFactSet());
+            File.WriteAllText(
+                @"D:\PracticeVisualStudio\showChildParentRelationShip\showChildParentRelationShip\Data\ParentChildData.json",
+                jsonParser.GetParentChildSet());
             Console.WriteLine(jsonParser.GetParentFactSet());
-//            RunWithTimeCheck(() => { Printer.Print(displayList); });
-            
 
+//            RunWithTimeCheck(() => { Printer.Print(displayList); });
         }
 
         private static void RunWithTimeCheck(Action action)
