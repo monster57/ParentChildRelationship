@@ -12,7 +12,7 @@ namespace ParentChildRelationship
             {
                 var treeBuilder = new StringBuilder();
                 CreateAnchorChildTree(anchor, new List<string>(), treeBuilder);
-                if (treeBuilder.ToString().Length > ConfigSettings.MinimumAcceptedLength) display.Add(treeBuilder.ToString());
+                display.Add(treeBuilder.ToString());
             }
             return display;
         }
