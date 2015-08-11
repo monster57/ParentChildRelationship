@@ -3,9 +3,11 @@ using System.Linq;
 
 namespace ParentChildRelationship
 {
+
     public class SvgOutput
     {
         private readonly List<Anchor> _anchors;
+        private static int _position = 10;
 
         public SvgOutput(List<Anchor> anchors)
         {
@@ -21,7 +23,7 @@ namespace ParentChildRelationship
             CreateSvgComponentsList(lines, texts);
             var lineSvg = GetLineSvg(lines);
             var textSvg = GetTextSvg(texts);
-            return header+textSvg + lineSvg+footer;
+            return header + textSvg + lineSvg + footer;
         }
 
         private static string GetTextSvg(IEnumerable<Text> texts)
@@ -42,12 +44,12 @@ namespace ParentChildRelationship
                                     "\" style=\"stroke:rgb(255,0,0);stroke-width:2\"/>\n"));
         }
 
-        private void CreateSvgComponentsList(List<Line> lines, ICollection<Text> texts)
+        private void CreateSvgComponentsList(ICollection<Line> lines, ICollection<Text> texts)
         {
             const int startingXPosition = 0;
-            const int startingYPosition = 10;
             foreach (var anchor in _anchors)
             {
+                var startingYPosition = _position;
                 var usedAnchor = new List<Anchor> {anchor};
                 texts.Add(new Text {Content = anchor.Data, PositionX = startingXPosition, PositionY = startingYPosition});
                 AddSvgComponent(lines, texts, startingXPosition, startingYPosition, anchor, usedAnchor);
@@ -62,12 +64,11 @@ namespace ParentChildRelationship
             startingXPosition += 40;
             if (anchor.Children == null || anchor.Children.Count == 0)
             {
-                startingXPosition += 40;
+                startingXPosition -= 40;
                 return;
             }
-            foreach (var child in anchor.Children)
+            foreach (var child in anchor.Children.Where(child => !usedAnchor.Contains(child)))
             {
-                if (usedAnchor.Contains(child)) continue;
                 texts.Add(new Text {Content = child.Data, PositionX = startingXPosition, PositionY = startingYPosition});
                 usedAnchor.Add(child);
                 lines.Add(new Line
@@ -77,8 +78,9 @@ namespace ParentChildRelationship
                     PositionX1 = startingXPosition,
                     PositionY1 = startingYPosition - 5
                 });
-                AddSvgComponent(lines, texts, startingXPosition, startingYPosition, child, usedAnchor);
+                AddSvgComponent(lines, texts, startingXPosition, startingYPosition, child, usedAnchor );
                 startingYPosition += 20;
+                _position += 20;
             }
         }
     }

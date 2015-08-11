@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 
 namespace ParentChildRelationship
 {
@@ -13,19 +14,15 @@ namespace ParentChildRelationship
 
         private static void Run()
         {
-//            var parentChildMap = new ParentChildUtil().GetParentToChildrenMap();
-//            var parentList = ParentList.GetParentSet(parentChildMap);
+            var parentChildMap = new ParentChildUtil().GetParentToChildrenMap();
+            var parentList = ParentList.GetParentSet(parentChildMap);
+            var svgString = new SvgOutput(parentList).GetSvg() ;
 //            var displayList = DisplayFigure.GetParentChildRepresentation(parentList);
 //            var jsonParser = new JsonParser(parentList);
-//            File.WriteAllText(
-//                @"D:\PracticeVisualStudio\Data\ParentFact.json",
-//                jsonParser.GetParentFactSet());
-//            File.WriteAllText(
-//                @"D:\PracticeVisualStudio\Data\ParentChildData.json",
-//                jsonParser.GetParentChildSet());
-//            Console.WriteLine(jsonParser.GetParentFactSet());
 
 //            RunWithTimeCheck(() => { Printer.Print(displayList); });
+
+           File.WriteAllText(@"D:\PracticeVisualStudio\svg\something.svg", svgString);
         }
 
         private static void RunWithTimeCheck(Action action)
