@@ -1,0 +1,14 @@
+var svg1 = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+svg1.setAttribute("height",200);
+svg1.setAttribute("width",500);
+document.body.appendChild(svg1);
+var circles = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+circles.setAttribute("cx",20);
+circles.setAttribute("cy",20);
+circles.setAttribute("r",20);
+svg1.appendChild(circles);
+var circles1 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+circles1.setAttribute("cx",50);
+circles1.setAttribute("cy",70);
+circles1.setAttribute("r",20);
+svg1.appendChild(circles1);
