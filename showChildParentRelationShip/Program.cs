@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
 
 namespace ParentChildRelationship
 {
@@ -14,17 +13,17 @@ namespace ParentChildRelationship
 
         private static void Run()
         {
-            var parentChildMap = new ParentChildUtil().GetParentToChildrenMap();
-            var parentList = ParentList.GetParentSet(parentChildMap);
-            var displayList = DisplayFigure.GetParentChildRepresentation(parentList);
-            var jsonParser = new JsonParser(parentList);
-            File.WriteAllText(
-                @"D:\PracticeVisualStudio\showChildParentRelationShip\showChildParentRelationShip\Data\ParentFact.json",
-                jsonParser.GetParentFactSet());
-            File.WriteAllText(
-                @"D:\PracticeVisualStudio\showChildParentRelationShip\showChildParentRelationShip\Data\ParentChildData.json",
-                jsonParser.GetParentChildSet());
-            Console.WriteLine(jsonParser.GetParentFactSet());
+//            var parentChildMap = new ParentChildUtil().GetParentToChildrenMap();
+//            var parentList = ParentList.GetParentSet(parentChildMap);
+//            var displayList = DisplayFigure.GetParentChildRepresentation(parentList);
+//            var jsonParser = new JsonParser(parentList);
+//            File.WriteAllText(
+//                @"D:\PracticeVisualStudio\Data\ParentFact.json",
+//                jsonParser.GetParentFactSet());
+//            File.WriteAllText(
+//                @"D:\PracticeVisualStudio\Data\ParentChildData.json",
+//                jsonParser.GetParentChildSet());
+//            Console.WriteLine(jsonParser.GetParentFactSet());
 
 //            RunWithTimeCheck(() => { Printer.Print(displayList); });
         }
