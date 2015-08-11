@@ -77,9 +77,17 @@ namespace ParentChildRelationship
                 lines.Add(new Line
                 {
                     PositionX = oldStartingXPosition + 20,
-                    PositionY = oldStartingYPosition - 5,
+                    PositionY = startingYPosition - 5,
                     PositionX1 = startingXPosition,
                     PositionY1 = startingYPosition - 5
+                });
+
+                lines.Add(new Line
+                {
+                    PositionX = oldStartingXPosition + 20,
+                    PositionY = oldStartingYPosition - 5,
+                    PositionX1 = oldStartingXPosition + 20,
+                    PositionY1 = startingYPosition-5
                 });
                 AddSvgComponent(lines, texts, startingXPosition, startingYPosition, child, usedAnchor );
                 startingYPosition += ConfigSettings.IncreamentedYPosition;
