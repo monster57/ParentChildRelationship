@@ -70,6 +70,7 @@
     <Compile Include="ConnectionPool.cs" />
     <Compile Include="DatabaseUtils.cs" />
     <Compile Include="JsonHelper.cs" />
+    <Compile Include="Line.cs" />
     <Compile Include="ParentChildUtil.cs" />
     <Compile Include="DisplayFigure.cs" />
     <Compile Include="FactDimensions.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="Printer.cs" />
     <Compile Include="SqlConnectionWrapper.cs" />
     <Compile Include="SvgOutput.cs" />
+    <Compile Include="Text.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

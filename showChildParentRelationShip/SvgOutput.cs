@@ -5,7 +5,7 @@ namespace ParentChildRelationship
 {
     public class SvgOutput
     {
-        private List<Anchor> _anchors;
+        private readonly List<Anchor> _anchors;
 
         public SvgOutput(List<Anchor> anchors)
         {
@@ -14,18 +14,72 @@ namespace ParentChildRelationship
 
         public string GetSvg()
         {
-            var head = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">";
-            var tail = "</svg>";
-            var anchor = _anchors.First();
-            return "";
+            const string header = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">\n";
+            const string footer = "</svg>";
+            var lines = new List<Line>();
+            var texts = new List<Text>();
+            CreateSvgComponentsList(lines, texts);
+            var lineSvg = GetLineSvg(lines);
+            var textSvg = GetTextSvg(texts);
+            return header+textSvg + lineSvg+footer;
+        }
+
+        private static string GetTextSvg(IEnumerable<Text> texts)
+        {
+            return texts.Aggregate("",
+                (current, text) =>
+                    current +
+                    ("<text x=\"" + text.PositionX + "\" y=\"" + text.PositionY +
+                     "\" font-family=\"Verdana\" font-size=\"10\">" + text.Content + "</text>\n"));
+        }
+
+        private static string GetLineSvg(IEnumerable<Line> lines)
+        {
+            return lines.Aggregate("",
+                (current, line) => current +
+                                   ("<line x1=\"" + line.PositionX + "\" y1=\"" + line.PositionY + "\" x2=\"" +
+                                    line.PositionX1 + "\" y2=\"" + line.PositionY1 +
+                                    "\" style=\"stroke:rgb(255,0,0);stroke-width:2\"/>\n"));
+        }
+
+        private void CreateSvgComponentsList(List<Line> lines, ICollection<Text> texts)
+        {
+            const int startingXPosition = 0;
+            const int startingYPosition = 10;
+            foreach (var anchor in _anchors)
+            {
+                var usedAnchor = new List<Anchor> {anchor};
+                texts.Add(new Text {Content = anchor.Data, PositionX = startingXPosition, PositionY = startingYPosition});
+                AddSvgComponent(lines, texts, startingXPosition, startingYPosition, anchor, usedAnchor);
+            }
+        }
+
+        private static void AddSvgComponent(ICollection<Line> lines, ICollection<Text> texts, int startingXPosition,
+            int startingYPosition, Anchor anchor, ICollection<Anchor> usedAnchor)
+        {
+            var oldStartingXPosition = startingXPosition;
+            var oldStartingYPosition = startingYPosition;
+            startingXPosition += 40;
+            if (anchor.Children == null || anchor.Children.Count == 0)
+            {
+                startingXPosition += 40;
+                return;
+            }
+            foreach (var child in anchor.Children)
+            {
+                if (usedAnchor.Contains(child)) continue;
+                texts.Add(new Text {Content = child.Data, PositionX = startingXPosition, PositionY = startingYPosition});
+                usedAnchor.Add(child);
+                lines.Add(new Line
+                {
+                    PositionX = oldStartingXPosition + 20,
+                    PositionY = oldStartingYPosition - 5,
+                    PositionX1 = startingXPosition,
+                    PositionY1 = startingYPosition - 5
+                });
+                AddSvgComponent(lines, texts, startingXPosition, startingYPosition, child, usedAnchor);
+                startingYPosition += 20;
+            }
         }
     }
 }
-
-
-//<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
-//  <rect x="25" y="25" width="200" height="200" fill="lime" stroke-width="4" stroke="pink" />
-//  <circle cx="125" cy="125" r="75" fill="orange" />
-//  <polyline points="50,150 50,200 200,200 200,100" stroke="red" stroke-width="4" fill="none" />
-//  <line x1="50" y1="50" x2="200" y2="200" stroke="blue" stroke-width="4" />
-//</svg>
