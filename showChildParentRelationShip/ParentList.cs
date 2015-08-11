@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ParentChildRelationship
@@ -75,7 +76,7 @@ namespace ParentChildRelationship
                     factList.Add(fact.FactId);
                 }
             }
-            return factList;
+            return factList.OrderBy(Convert.ToInt32);
         }
     }
 }
