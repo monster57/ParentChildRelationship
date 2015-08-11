@@ -7,7 +7,7 @@ namespace ParentChildRelationship
     public class SvgOutput
     {
         private readonly List<Anchor> _anchors;
-        private static int _position = 10;
+        private static int _positionY = ConfigSettings.MinYPosition;
 
         public SvgOutput(List<Anchor> anchors)
         {
@@ -46,13 +46,16 @@ namespace ParentChildRelationship
 
         private void CreateSvgComponentsList(ICollection<Line> lines, ICollection<Text> texts)
         {
-            const int startingXPosition = 0;
+            var startingXPosition = 0;
             foreach (var anchor in _anchors)
             {
-                var startingYPosition = _position;
+                var startingYPosition = _positionY;
                 var usedAnchor = new List<Anchor> {anchor};
                 texts.Add(new Text {Content = anchor.Data, PositionX = startingXPosition, PositionY = startingYPosition});
                 AddSvgComponent(lines, texts, startingXPosition, startingYPosition, anchor, usedAnchor);
+                if (_positionY <= ConfigSettings.MaxYPosition) continue;
+                _positionY = ConfigSettings.MinYPosition;
+                startingXPosition += ConfigSettings.StartFromNewXPosition;
             }
         }
 
@@ -61,10 +64,10 @@ namespace ParentChildRelationship
         {
             var oldStartingXPosition = startingXPosition;
             var oldStartingYPosition = startingYPosition;
-            startingXPosition += 40;
-            if (anchor.Children == null || anchor.Children.Count == 0)
+            startingXPosition += ConfigSettings.IncreamentedXPosition;
+            if (anchor.Children == null || anchor.Children.Count == ConfigSettings.NotAcceptableValue)
             {
-                startingXPosition -= 40;
+                startingXPosition -= ConfigSettings.IncreamentedXPosition;
                 return;
             }
             foreach (var child in anchor.Children.Where(child => !usedAnchor.Contains(child)))
@@ -79,8 +82,8 @@ namespace ParentChildRelationship
                     PositionY1 = startingYPosition - 5
                 });
                 AddSvgComponent(lines, texts, startingXPosition, startingYPosition, child, usedAnchor );
-                startingYPosition += 20;
-                _position += 20;
+                startingYPosition += ConfigSettings.IncreamentedYPosition;
+                _positionY += ConfigSettings.IncreamentedYPosition;
             }
         }
     }

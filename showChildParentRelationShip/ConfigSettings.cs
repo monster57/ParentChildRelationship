@@ -106,6 +106,32 @@ namespace ParentChildRelationship
         {
             get { return Convert.ToInt32(ConfigurationManager.AppSettings["minimumAcceptedLength"]); }
         }
+        public static int MaxYPosition
+        {
+            get { return Convert.ToInt32(ConfigurationManager.AppSettings["maxYPosition"]); }
+        }
+        public static int MinYPosition
+        {
+            get { return Convert.ToInt32(ConfigurationManager.AppSettings["minYPosition"]); }
+        }
+
+        public static int IncreamentedXPosition
+        {
+            get { return Convert.ToInt32(ConfigurationManager.AppSettings["increamentedXPosition"]); }
+        }
+        public static int IncreamentedYPosition
+        {
+            get { return Convert.ToInt32(ConfigurationManager.AppSettings["increamentedYPosition"]); }
+        }
+        public static int StartFromNewXPosition
+        {
+            get { return Convert.ToInt32(ConfigurationManager.AppSettings["startFromNewXPosition"]); }
+        }
+
+        public static int NotAcceptableValue
+        {
+            get { return Convert.ToInt32(ConfigurationManager.AppSettings["notAcceptableValue"]); }
+        }
         public static int KeySize
         {
             get { return Convert.ToInt32(ConfigurationManager.AppSettings["keySize"]); }
