@@ -67,7 +67,6 @@ namespace ParentChildRelationship
             startingXPosition += ConfigSettings.IncreamentedXPosition;
             if (anchor.Children == null || anchor.Children.Count == ConfigSettings.NotAcceptableValue)
             {
-                startingXPosition -= ConfigSettings.IncreamentedXPosition;
                 return;
             }
             if (!UsedParent.Contains(anchor))

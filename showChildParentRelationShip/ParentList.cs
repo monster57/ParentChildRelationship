@@ -21,13 +21,13 @@ namespace ParentChildRelationship
             {
                 if (!usedKey.Contains(anchor)) result.Add(anchor);
                 CheckForNonParent(usedKey, anchor, result);
-                if (anchor.Children == null || anchor.Children.Count == 0) 
+                if (anchor.Children == null || anchor.Children.Count == 0)
                     result.Remove(anchor);
             }
             return result;
         }
 
-        private static void CheckForNonParent(ICollection<Anchor> usedKeys, Anchor anchor, List<Anchor> result)
+        private static void CheckForNonParent(ICollection<Anchor> usedKeys, Anchor anchor, ICollection<Anchor> result)
         {
             usedKeys.Add(anchor);
             if (anchor.Children == null) return;
