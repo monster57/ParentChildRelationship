@@ -3,12 +3,11 @@ using System.Linq;
 
 namespace ParentChildRelationship
 {
-
     public class SvgOutput
     {
-        private readonly List<Anchor> _anchors;
         private static int _positionY = ConfigSettings.MinYPosition;
         private static readonly List<Anchor> UsedParent = new List<Anchor>();
+        private readonly List<Anchor> _anchors;
 
         public SvgOutput(List<Anchor> anchors)
         {
@@ -72,44 +71,34 @@ namespace ParentChildRelationship
                 return;
             }
             if (!UsedParent.Contains(anchor))
-            {
-                lines.Add(new Line
-                {
-                    PositionX = oldStartingXPosition + 20,
-                    PositionY = startingYPosition - 5,
-                    PositionX1 = startingXPosition - 20,
-                    PositionY1 = startingYPosition - 5
-                });
-            }
+                AddLine(lines, oldStartingXPosition + 20, startingYPosition - 5, startingXPosition - 20,
+                    startingYPosition - 5);
             UsedParent.Add(anchor);
-            
-            
-            
             foreach (var child in anchor.Children.Where(child => !usedAnchor.Contains(child)))
             {
                 texts.Add(new Text {Content = child.Data, PositionX = startingXPosition, PositionY = startingYPosition});
                 usedAnchor.Add(child);
-                
-                lines.Add(new Line
-                {
-                    PositionX = oldStartingXPosition + 30,
-                    PositionY = startingYPosition - 5,
-                    PositionX1 = startingXPosition,
-                    PositionY1 = startingYPosition - 5
-                });
-
-                lines.Add(new Line
-                {
-                    PositionX = oldStartingXPosition + 30,
-                    PositionY = oldStartingYPosition - 5,
-                    PositionX1 = oldStartingXPosition + 30,
-                    PositionY1 = startingYPosition-5
-                });
-                AddSvgComponent(lines, texts, startingXPosition, startingYPosition, child, usedAnchor );
+                AddLine(lines, oldStartingXPosition + 30, startingYPosition - 5, startingXPosition,
+                    startingYPosition - 5);
+                AddLine(lines, oldStartingXPosition + 30, oldStartingYPosition - 5, oldStartingXPosition + 30,
+                    startingYPosition - 5);
+                AddSvgComponent(lines, texts, startingXPosition, startingYPosition, child, usedAnchor);
                 UsedParent.Add(child);
                 startingYPosition += ConfigSettings.IncreamentedYPosition;
                 _positionY += ConfigSettings.IncreamentedYPosition;
             }
+        }
+
+        private static void AddLine(ICollection<Line> lines, int xPosition, int yPosition, int x1Position,
+            int y1Position)
+        {
+            lines.Add(new Line
+            {
+                PositionX = xPosition,
+                PositionY = yPosition,
+                PositionX1 = x1Position,
+                PositionY1 = y1Position
+            });
         }
     }
 }
