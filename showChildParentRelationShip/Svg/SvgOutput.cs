@@ -49,7 +49,6 @@ namespace ParentChildRelationship.Svg
             var startingXPosition = 0;
             foreach (var anchor in _anchors)
             {
-                
                 var startingYPosition = _positionY;
                 var usedAnchor = new List<Anchor> {anchor};
                 texts.Add(new Text {Content = anchor.Data, PositionX = startingXPosition, PositionY = startingYPosition});
@@ -69,21 +68,39 @@ namespace ParentChildRelationship.Svg
             if (anchor.Children == null || anchor.Children.Count == ConfigSettings.NotAcceptableValue) return;
             if (!UsedParent.Contains(anchor))
                 AddLine(lines, oldStartingXPosition + 20, startingYPosition - 5, startingXPosition - 20,
-                   startingYPosition - 5);
+                    startingYPosition - 5);
             UsedParent.Add(anchor);
             foreach (var child in anchor.Children.Where(child => !usedAnchor.Contains(child)))
             {
                 texts.Add(new Text {Content = child.Data, PositionX = startingXPosition, PositionY = startingYPosition});
                 usedAnchor.Add(child);
-                AddLine(lines, oldStartingXPosition + 30, startingYPosition - 5, startingXPosition,
-                    startingYPosition - 5);
-                AddLine(lines, oldStartingXPosition + 30, oldStartingYPosition - 5, oldStartingXPosition + 30,
-                    startingYPosition - 5);
+                AddChildParentConnectorLine(lines, oldStartingXPosition, startingXPosition, startingYPosition);
+                AddVerticalLine(lines, oldStartingXPosition, oldStartingYPosition, startingYPosition);
                 AddSvgComponent(lines, texts, startingXPosition, startingYPosition, child, usedAnchor);
                 UsedParent.Add(child);
                 startingYPosition += ConfigSettings.IncreamentedYPosition;
                 _positionY += ConfigSettings.IncreamentedYPosition;
             }
+        }
+
+        private static void AddVerticalLine(ICollection<Line> lines, int oldStartingXPosition, int oldStartingYPosition,
+            int startingYPosition)
+        {
+            var positionX = oldStartingXPosition + 30;
+            var positionY = oldStartingYPosition - 5;
+            var positionX1 = oldStartingXPosition + 30;
+            var positionY1 = startingYPosition - 5;
+            AddLine(lines, positionX, positionY, positionX1, positionY1);
+        }
+
+        private static void AddChildParentConnectorLine(ICollection<Line> lines, int oldStartingXPosition,
+            int startingXPosition, int startingYPosition)
+        {
+            var positionX = oldStartingXPosition + 30;
+            var positionY = startingYPosition - 5;
+            var positionX1 = startingXPosition;
+            var positionY1 = startingYPosition - 5;
+            AddLine(lines, positionX, positionY, positionX1, positionY1);
         }
 
         private static void AddLine(ICollection<Line> lines, int xPosition, int yPosition, int x1Position,
