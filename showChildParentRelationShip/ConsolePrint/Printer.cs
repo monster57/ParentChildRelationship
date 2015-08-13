@@ -6,8 +6,7 @@ namespace ParentChildRelationship.ConsolePrint
 {
     internal class Printer
     {
-        
-        public static void PrintWithTimeCheck(List<string> displayList)
+        public void PrintWithTimeCheck(List<string> displayList)
         {
             var sw = new Stopwatch();
             sw.Start();
@@ -16,7 +15,7 @@ namespace ParentChildRelationship.ConsolePrint
             Console.WriteLine("Took {0} milliseconds :)", sw.ElapsedMilliseconds);
         }
 
-        private static void Print(List<string> parentToChildrenMap)
+        private void Print(List<string> parentToChildrenMap)
         {
             foreach (var list in parentToChildrenMap)
             {
@@ -24,7 +23,7 @@ namespace ParentChildRelationship.ConsolePrint
             }
         }
 
-        private static void PrintFact(string relationString)
+        private void PrintFact(string relationString)
         {
             Logger.Log("{0} ", relationString);
         }

@@ -25,7 +25,7 @@ namespace ParentChildRelationship
                     Console.WriteLine("Output is saved to file");
                     break;
                 case "c":
-                    Printer.PrintWithTimeCheck(_displayList);
+                    new Printer().PrintWithTimeCheck(_displayList);
                     break;
                 default:
                     Console.WriteLine("Invalid Option");

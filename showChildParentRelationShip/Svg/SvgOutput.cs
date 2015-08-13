@@ -6,8 +6,8 @@ namespace ParentChildRelationship.Svg
 {
     public class SvgOutput
     {
-        private static int _positionY = ConfigSettings.MinYPosition;
-        private static readonly List<Anchor> UsedParent = new List<Anchor>();
+        private  int _positionY = ConfigSettings.MinYPosition;
+        private readonly List<Anchor> _usedParent = new List<Anchor>();
         private readonly List<Anchor> _anchors;
 
         public SvgOutput(List<Anchor> anchors)
@@ -27,14 +27,27 @@ namespace ParentChildRelationship.Svg
             return header + textSvg + lineSvg + footer;
         }
 
-        private static string GetTextSvg(IEnumerable<Text> texts)
+        private string GetTextSvg(IEnumerable<Text> texts)
         {
-            return texts.Aggregate("",
-                (current, text) =>
-                    current + CreateSvgText(text.PositionX, text.PositionY, text.Content));
+            var textOutput = new StringBuilder();
+            foreach (var text in texts)
+            {
+                textOutput.Append(CreateSvgText(text.PositionX, text.PositionY, text.Content));
+            }
+            return textOutput.ToString();
         }
 
-        private static string CreateSvgText(int positionX, int positionY, string content)
+        private string GetLineSvg(IEnumerable<Line> lines)
+        {
+            var lineOutput = new StringBuilder();
+            foreach (var line in lines)
+            {
+                lineOutput.Append(CreateSvgLine(line.PositionX, line.PositionY, line.PositionX1, line.PositionY1));
+            }
+            return lineOutput.ToString();
+        }
+
+        private string CreateSvgText(int positionX, int positionY, string content)
         {
             var svgTextBulder = new StringBuilder();
             svgTextBulder.Append("<text x=\"");
@@ -48,14 +61,7 @@ namespace ParentChildRelationship.Svg
             return svgTextBulder.ToString();
         }
 
-        private static string GetLineSvg(IEnumerable<Line> lines)
-        {
-            return lines.Aggregate("",
-                (current, line) =>
-                    current + CreateSvgLine(line.PositionX, line.PositionY, line.PositionX1, line.PositionY1));
-        }
-
-        private static string CreateSvgLine(int positionX, int positionY, int positionX1, int positionY1)
+        private string CreateSvgLine(int positionX, int positionY, int positionX1, int positionY1)
         {
             var svgLineBuilder = new StringBuilder();
             svgLineBuilder.Append("<line x1=\"");
@@ -85,16 +91,16 @@ namespace ParentChildRelationship.Svg
             }
         }
 
-        private static void AddSvgComponent(ICollection<Line> lines, ICollection<Text> texts, int startingXPosition,
+        private void AddSvgComponent(ICollection<Line> lines, ICollection<Text> texts, int startingXPosition,
             int startingYPosition, Anchor anchor, ICollection<Anchor> usedAnchor)
         {
             var oldPositionX = startingXPosition;
             var oldPositionY = startingYPosition;
             startingXPosition += ConfigSettings.IncreamentedXPosition;
             if (anchor.Children == null || anchor.Children.Count == ConfigSettings.NotAcceptableValue) return;
-            if (!UsedParent.Contains(anchor))
+            if (!_usedParent.Contains(anchor))
                 AddLineForIndependentParent(lines, oldPositionX, startingXPosition, startingYPosition);
-            UsedParent.Add(anchor);
+            _usedParent.Add(anchor);
             foreach (var child in anchor.Children.Where(child => !usedAnchor.Contains(child)))
             {
                 texts.Add(new Text {Content = child.Data, PositionX = startingXPosition, PositionY = startingYPosition});
@@ -102,25 +108,23 @@ namespace ParentChildRelationship.Svg
                 AddChildParentConnectorLine(lines, oldPositionX, startingXPosition, startingYPosition);
                 AddVerticalLine(lines, oldPositionX, oldPositionY, startingYPosition);
                 AddSvgComponent(lines, texts, startingXPosition, startingYPosition, child, usedAnchor);
-                UsedParent.Add(child);
+                _usedParent.Add(child);
                 startingYPosition += ConfigSettings.IncreamentedYPosition;
                 _positionY += ConfigSettings.IncreamentedYPosition;
             }
         }
 
-        private static void AddLineForIndependentParent(ICollection<Line> lines, int oldPositionX,
+        private void AddLineForIndependentParent(ICollection<Line> lines, int oldPositionX,
             int startingXPosition, int startingYPosition)
         {
             var positionX = oldPositionX + 20;
             var positionY = startingYPosition - 5;
             var positionX1 = startingXPosition - 20;
             var positionY1 = startingYPosition - 5;
-
-
             AddLine(lines, positionX, positionY, positionX1, positionY1);
         }
 
-        private static void AddVerticalLine(ICollection<Line> lines, int oldPositionX, int oldPositionY,
+        private void AddVerticalLine(ICollection<Line> lines, int oldPositionX, int oldPositionY,
             int startingYPosition)
         {
             var positionX = oldPositionX + 30;
@@ -130,7 +134,7 @@ namespace ParentChildRelationship.Svg
             AddLine(lines, positionX, positionY, positionX1, positionY1);
         }
 
-        private static void AddChildParentConnectorLine(ICollection<Line> lines, int oldPositionX,
+        private void AddChildParentConnectorLine(ICollection<Line> lines, int oldPositionX,
             int startingXPosition, int startingYPosition)
         {
             var positionX = oldPositionX + 30;
@@ -140,7 +144,7 @@ namespace ParentChildRelationship.Svg
             AddLine(lines, positionX, positionY, positionX1, positionY1);
         }
 
-        private static void AddLine(ICollection<Line> lines, int xPosition, int yPosition, int x1Position,
+        private void AddLine(ICollection<Line> lines, int xPosition, int yPosition, int x1Position,
             int y1Position)
         {
             lines.Add(new Line
