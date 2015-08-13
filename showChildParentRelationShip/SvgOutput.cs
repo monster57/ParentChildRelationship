@@ -49,6 +49,7 @@ namespace ParentChildRelationship
             var startingXPosition = 0;
             foreach (var anchor in _anchors)
             {
+                
                 var startingYPosition = _positionY;
                 var usedAnchor = new List<Anchor> {anchor};
                 texts.Add(new Text {Content = anchor.Data, PositionX = startingXPosition, PositionY = startingYPosition});
@@ -65,13 +66,13 @@ namespace ParentChildRelationship
             var oldStartingXPosition = startingXPosition;
             var oldStartingYPosition = startingYPosition;
             startingXPosition += ConfigSettings.IncreamentedXPosition;
-            if (anchor.Children == null || anchor.Children.Count == ConfigSettings.NotAcceptableValue)
+            if (anchor.Children == null || anchor.Children.Count == ConfigSettings.NotAcceptableValue) return;
+            if (!UsedParent.Contains(anchor) || anchor.Children == null || anchor.Children.Count == 0)
             {
-                return;
-            }
-            if (!UsedParent.Contains(anchor))
                 AddLine(lines, oldStartingXPosition + 20, startingYPosition - 5, startingXPosition - 20,
-                    startingYPosition - 5);
+                   startingYPosition - 5);
+            }
+               
             UsedParent.Add(anchor);
             foreach (var child in anchor.Children.Where(child => !usedAnchor.Contains(child)))
             {
