@@ -21,8 +21,7 @@ namespace ParentChildRelationship
             {
                 if (!usedKey.Contains(anchor)) result.Add(anchor);
                 CheckForNonParent(usedKey, anchor, result);
-                if (anchor.Children == null || anchor.Children.Count == 0)
-                    result.Remove(anchor);
+                if (anchor.Children == null || anchor.Children.Count == 0) result.Remove(anchor);
             }
             return result;
         }
@@ -33,10 +32,9 @@ namespace ParentChildRelationship
             if (anchor.Children == null) return;
             foreach (var childNode in anchor.Children)
             {
-                if (usedKeys.Contains(childNode))
+                if (usedKeys.Contains(childNode) || result.Contains(anchor))
                 {
                     result.Remove(childNode);
-                    return;
                 }
                 CheckForNonParent(usedKeys, childNode, result);
             }

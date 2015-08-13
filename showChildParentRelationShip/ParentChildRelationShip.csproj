@@ -65,14 +65,12 @@
     <Compile Include="ConfigSettings.cs" />
     <Compile Include="ConnectionPool.cs" />
     <Compile Include="DatabaseUtils.cs" />
-    <Compile Include="JsonHelper.cs" />
     <Compile Include="Line.cs" />
     <Compile Include="ParentChildUtil.cs" />
     <Compile Include="DisplayFigure.cs" />
     <Compile Include="FactDimensions.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Fact.cs" />
-    <Compile Include="JsonParser.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Anchor.cs" />
     <Compile Include="ParentList.cs" />
