@@ -33,7 +33,7 @@ namespace ParentChildRelationshipTest.Integration_Test
         [Test]
         public void ShouldGetATreeOfAllParentToTheLastChild()
         {
-            var list = DisplayFigure.GetParentChildRepresentation(_parentList);
+            var list = new DisplayFigure().GetParentChildRepresentation(_parentList);
             for (var i = 0; i <_expected.Count ; i++)
             {
                 Assert.AreEqual(_expected[i], list[i]);

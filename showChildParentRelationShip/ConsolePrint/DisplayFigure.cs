@@ -3,9 +3,9 @@ using System.Text;
 
 namespace ParentChildRelationship.ConsolePrint
 {
-    public static class DisplayFigure
+    public class DisplayFigure
     {
-        public static List<string> GetParentChildRepresentation(List<Anchor> parentList)
+        public  List<string> GetParentChildRepresentation(List<Anchor> parentList)
         {
             var display = new List<string>();
             foreach (var anchor in parentList)
@@ -17,7 +17,7 @@ namespace ParentChildRelationship.ConsolePrint
             return display;
         }
 
-        private static void CreateAnchorChildTree(Anchor anchor, ICollection<string> rowList, StringBuilder tree)
+        private void CreateAnchorChildTree(Anchor anchor, ICollection<string> rowList, StringBuilder tree)
         {
             rowList.Add(anchor.Data);
             tree.Append(anchor.Data.PadRight(ConfigSettings.KeySize, ' '));
@@ -35,7 +35,7 @@ namespace ParentChildRelationship.ConsolePrint
             }
         }
 
-        private static void AddLine(ICollection<string> rowList, StringBuilder tree)
+        private  void AddLine(ICollection<string> rowList, StringBuilder tree)
         {
             tree.Append("\n");
             for (var i = 0; i < rowList.Count - 1; i++)
