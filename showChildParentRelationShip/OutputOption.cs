@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using ParentChildRelationship.ConsolePrint;
 
 namespace ParentChildRelationship
@@ -21,7 +22,7 @@ namespace ParentChildRelationship
             switch (option.ToLower())
             {
                 case "g":
-                    File.WriteAllText(@"D:\PracticeVisualStudio\svg\something.svg", _svgString);
+                    File.WriteAllText(@"D:\something.svg", _svgString , Encoding.UTF8);
                     Console.WriteLine("Output is saved to file");
                     break;
                 case "c":
