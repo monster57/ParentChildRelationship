@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 using ParentChildRelationship;
+using ParentChildRelationship.ConsolePrint;
 
 namespace ParentChildRelationshipTest.Integration_Test
 {

@@ -65,9 +65,10 @@
     <Compile Include="ConfigSettings.cs" />
     <Compile Include="ConnectionPool.cs" />
     <Compile Include="DatabaseUtils.cs" />
-    <Compile Include="Line.cs" />
+    <Compile Include="OutputOption.cs" />
+    <Compile Include="Svg\Line.cs" />
     <Compile Include="ParentChildUtil.cs" />
-    <Compile Include="DisplayFigure.cs" />
+    <Compile Include="ConsolePrint\DisplayFigure.cs" />
     <Compile Include="FactDimensions.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Fact.cs" />
@@ -77,10 +78,10 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryCreator.cs" />
-    <Compile Include="Printer.cs" />
+    <Compile Include="ConsolePrint\Printer.cs" />
     <Compile Include="SqlConnectionWrapper.cs" />
-    <Compile Include="SvgOutput.cs" />
-    <Compile Include="Text.cs" />
+    <Compile Include="Svg\SvgOutput.cs" />
+    <Compile Include="Svg\Text.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

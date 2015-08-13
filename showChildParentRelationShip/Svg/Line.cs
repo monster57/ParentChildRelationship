@@ -1,4 +1,4 @@
-﻿namespace ParentChildRelationship
+﻿namespace ParentChildRelationship.Svg
 {
     public class Line
     {

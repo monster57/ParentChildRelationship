@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
+using ParentChildRelationship.ConsolePrint;
+using ParentChildRelationship.Svg;
 
 namespace ParentChildRelationship
 {
@@ -16,13 +17,11 @@ namespace ParentChildRelationship
         {
             var parentChildMap = new ParentChildUtil().GetParentToChildrenMap();
             var parentList = ParentList.GetParentSet(parentChildMap);
-            var svgString = new SvgOutput(parentList).GetSvg() ;
-//            var displayList = DisplayFigure.GetParentChildRepresentation(parentList);
-//            var jsonParser = new JsonParser(parentList);
-
-//            RunWithTimeCheck(() => { Printer.Print(displayList); });
-
-           File.WriteAllText(@"D:\PracticeVisualStudio\svg\something.svg", svgString);
+            var svgString = new SvgOutput(parentList).GetSvg();
+            var displayList = DisplayFigure.GetParentChildRepresentation(parentList);
+            var option = Console.ReadLine();
+            var output = new OutputOption(displayList , svgString);
+            output.ShowOutput(option);
         }
 
         private static void RunWithTimeCheck(Action action)
