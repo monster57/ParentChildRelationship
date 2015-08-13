@@ -67,7 +67,7 @@ namespace ParentChildRelationship
             var oldStartingYPosition = startingYPosition;
             startingXPosition += ConfigSettings.IncreamentedXPosition;
             if (anchor.Children == null || anchor.Children.Count == ConfigSettings.NotAcceptableValue) return;
-            if (!UsedParent.Contains(anchor) || anchor.Children == null || anchor.Children.Count == 0)
+            if (!UsedParent.Contains(anchor))
             {
                 AddLine(lines, oldStartingXPosition + 20, startingYPosition - 5, startingXPosition - 20,
                    startingYPosition - 5);
