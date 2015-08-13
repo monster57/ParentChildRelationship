@@ -67,8 +67,7 @@ namespace ParentChildRelationship.Svg
             startingXPosition += ConfigSettings.IncreamentedXPosition;
             if (anchor.Children == null || anchor.Children.Count == ConfigSettings.NotAcceptableValue) return;
             if (!UsedParent.Contains(anchor))
-                AddLine(lines, oldStartingXPosition + 20, startingYPosition - 5, startingXPosition - 20,
-                    startingYPosition - 5);
+                AddLineForIndependentParent(lines , oldStartingXPosition , startingXPosition , startingYPosition);
             UsedParent.Add(anchor);
             foreach (var child in anchor.Children.Where(child => !usedAnchor.Contains(child)))
             {
@@ -81,6 +80,18 @@ namespace ParentChildRelationship.Svg
                 startingYPosition += ConfigSettings.IncreamentedYPosition;
                 _positionY += ConfigSettings.IncreamentedYPosition;
             }
+        }
+
+        private static void AddLineForIndependentParent(ICollection<Line> lines, int oldStartingXPosition,
+            int startingXPosition, int startingYPosition)
+        {
+            var positionX = oldStartingXPosition + 20;
+            var positionY = startingYPosition - 5;
+            var positionX1 = startingXPosition - 20;
+            var positionY1 = startingYPosition - 5;
+
+
+            AddLine(lines, positionX, positionY, positionX1, positionY1);
         }
 
         private static void AddVerticalLine(ICollection<Line> lines, int oldStartingXPosition, int oldStartingYPosition,
