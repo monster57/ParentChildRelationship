@@ -51,7 +51,7 @@
     <Compile Include="Integration Test\DatabaseUtilsTest.cs" />
     <Compile Include="Integration Test\SvgOutputTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Integration Test\DataContainerTest.cs" />
+    <Compile Include="Integration Test\ParentChildUtilTest.cs" />
     <Compile Include="Test\ConnectionPoolTest.cs" />
     <Compile Include="Test\Helper.cs" />
     <Compile Include="Test\ExtensionsTest.cs" />
